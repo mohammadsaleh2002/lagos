@@ -1,42 +1,48 @@
 {% extends "base.html" %}
 {% block title %}{{ article.article_title }}{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3 animate-in">
-    <div>
-        <a href="{{ url_for('content.articles', project_id=project._id) }}" class="text-muted" style="text-decoration:none;font-size:0.9rem;">
+<!-- Header -->
+<div class="flex items-start justify-between mb-6 animate-in">
+    <div class="flex-1 min-w-0">
+        <a href="{{ url_for('content.articles', project_id=project._id) }}"
+           class="inline-flex items-center gap-1.5 text-xs text-[#8888aa] hover:text-[#9b7fe8] transition-colors no-underline mb-3">
             <i class="bi bi-arrow-left"></i> {{ t('back_to_articles') }}
         </a>
-        <h2 class="mt-2">{{ article.article_title }}</h2>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-            <span class="badge bg-secondary">{{ article.tag }}</span>
-            <code>{{ article.slug }}</code>
+        <h1 class="text-xl font-bold text-white mb-2 leading-snug">{{ article.article_title }}</h1>
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs px-2.5 py-0.5 rounded-full">{{ article.tag }}</span>
+            <code class="bg-[#1a1a35] border border-[#2a2a4a] text-purple-300 px-2.5 py-0.5 rounded-lg text-xs">{{ article.slug }}</code>
             {% if article.is_published %}
-            <span class="badge bg-success">{{ t('published') }}</span>
+            <span class="bg-[#1a4a2a] text-green-400 text-xs font-medium px-2.5 py-1 rounded-full">{{ t('published') }}</span>
             {% if article.wp_post_url %}
-            <a href="{{ article.wp_post_url }}" target="_blank" class="btn btn-sm btn-outline-info">
+            <a href="{{ article.wp_post_url }}" target="_blank"
+               class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium border border-blue-700 text-blue-400 hover:bg-[#1a2a4a] rounded-lg transition-all no-underline">
                 <i class="bi bi-box-arrow-up-right"></i> {{ t('view_on_wp') }}
             </a>
             {% endif %}
             {% else %}
-            <span class="badge bg-warning">{{ t('unpublished') }}</span>
+            <span class="bg-[#4a3a1a] text-yellow-400 text-xs font-medium px-2.5 py-1 rounded-full">{{ t('unpublished') }}</span>
             {% endif %}
         </div>
     </div>
     {% if not article.is_published %}
-    <form method="POST" action="{{ url_for('publishing.publish', project_id=project._id) }}">
+    <form method="POST" action="{{ url_for('publishing.publish', project_id=project._id) }}" class="ml-4 flex-shrink-0">
         <input type="hidden" name="article_id" value="{{ article._id }}">
-        <button class="btn btn-success"><i class="bi bi-upload"></i> {{ t('publish_now') }}</button>
+        <button class="flex items-center gap-2 px-4 py-2.5 bg-[#6c4fbf] hover:bg-[#7c5fd0] text-white text-sm font-semibold rounded-lg transition-all">
+            <i class="bi bi-upload"></i> {{ t('publish_now') }}
+        </button>
     </form>
     {% endif %}
 </div>
 
 <!-- Chapters -->
 {% for chapter in article.chapters %}
-<div class="card mb-3 animate-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
-    <div class="card-header">
-        <strong>{{ chapter.title }}</strong>
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl mb-3 overflow-hidden animate-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+    <div class="flex items-center gap-2 px-5 py-3 border-b border-[#2a2a4a] bg-[#1a1a35]">
+        <span class="text-xs font-bold text-[#6c4fbf]">{{ loop.index }}</span>
+        <h3 class="text-sm font-semibold text-white">{{ chapter.title }}</h3>
     </div>
-    <div class="card-body" style="line-height:1.8;">
+    <div class="px-5 py-4 text-sm text-[#e0e0e0] leading-relaxed article-content">
         {{ chapter.content|safe }}
     </div>
 </div>
@@ -44,17 +50,27 @@
 
 <!-- FAQ -->
 {% if article.faq %}
-<div class="card mb-3 animate-in">
-    <div class="card-header"><strong><i class="bi bi-question-circle"></i> {{ t('faq') }}</strong></div>
-    <div class="card-body">{{ article.faq|safe }}</div>
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl mb-3 overflow-hidden animate-in">
+    <div class="flex items-center gap-2 px-5 py-3 border-b border-[#2a2a4a] bg-[#1a1a35]">
+        <i class="bi bi-question-circle text-[#6c4fbf]"></i>
+        <h3 class="text-sm font-semibold text-white">{{ t('faq') }}</h3>
+    </div>
+    <div class="px-5 py-4 text-sm text-[#e0e0e0] leading-relaxed article-content">
+        {{ article.faq|safe }}
+    </div>
 </div>
 {% endif %}
 
 <!-- Reference -->
 {% if article.reference %}
-<div class="card mb-3 animate-in">
-    <div class="card-header"><strong><i class="bi bi-link-45deg"></i> {{ t('references') }}</strong></div>
-    <div class="card-body">{{ article.reference|safe }}</div>
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl mb-3 overflow-hidden animate-in">
+    <div class="flex items-center gap-2 px-5 py-3 border-b border-[#2a2a4a] bg-[#1a1a35]">
+        <i class="bi bi-link-45deg text-[#6c4fbf]"></i>
+        <h3 class="text-sm font-semibold text-white">{{ t('references') }}</h3>
+    </div>
+    <div class="px-5 py-4 text-sm text-[#e0e0e0] leading-relaxed article-content">
+        {{ article.reference|safe }}
+    </div>
 </div>
 {% endif %}
 {% endblock %}

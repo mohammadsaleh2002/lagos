@@ -1,88 +1,106 @@
 {% extends "base.html" %}
 {% block title %}{{ t('api_keys') }}{% endblock %}
 {% block content %}
-<h2 class="mb-4">{{ t('api_keys') }}</h2>
+<h1 class="text-2xl font-bold text-white mb-6">{{ t('api_keys') }}</h1>
 
-<!-- Add Key Form -->
-<div class="card mb-4 animate-in">
-    <div class="card-body">
-        <h5 class="section-header" style="margin-top:0;"><i class="bi bi-plus-circle"></i> {{ t('add_new_api_key') }}</h5>
-        <form method="POST" action="{{ url_for('api_keys.add_key') }}" class="row g-3">
-            <div class="col-md-3">
-                <select name="provider" class="form-select" required>
-                    <option value="">{{ t('select_provider') }}</option>
-                    {% for p in providers %}
-                    <option value="{{ p }}">{{ p|title }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="name" class="form-control" placeholder="{{ t('key_name') }}">
-            </div>
-            <div class="col-md-4">
-                <input type="password" name="api_key" class="form-control" placeholder="{{ t('api_key') }}" required>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-plus-lg"></i> {{ t('add') }}</button>
-            </div>
-        </form>
+<!-- Add Key -->
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl p-5 mb-6 animate-in">
+    <div class="flex items-center gap-2 mb-4 pb-3 border-b border-[#2a2a4a]">
+        <i class="bi bi-plus-circle text-[#6c4fbf]"></i>
+        <h2 class="text-sm font-semibold text-white">{{ t('add_new_api_key') }}</h2>
     </div>
+    <form method="POST" action="{{ url_for('api_keys.add_key') }}" class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div>
+            <label class="block text-xs font-semibold text-[#8888aa] mb-1.5 uppercase tracking-wide">{{ t('provider') }}</label>
+            <select name="provider" required
+                    class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
+                <option value="">{{ t('select_provider') }}</option>
+                {% for p in providers %}
+                <option value="{{ p }}">{{ p|title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="block text-xs font-semibold text-[#8888aa] mb-1.5 uppercase tracking-wide">{{ t('name') }}</label>
+            <input type="text" name="name" placeholder="{{ t('key_name') }}"
+                   class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
+        </div>
+        <div>
+            <label class="block text-xs font-semibold text-[#8888aa] mb-1.5 uppercase tracking-wide">{{ t('api_key') }}</label>
+            <input type="password" name="api_key" required placeholder="{{ t('api_key') }}"
+                   class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
+        </div>
+        <div class="flex items-end">
+            <button type="submit"
+                    class="w-full py-2.5 bg-[#6c4fbf] hover:bg-[#7c5fd0] text-white text-sm font-semibold rounded-lg transition-all flex items-center justify-center gap-2">
+                <i class="bi bi-plus-lg"></i> {{ t('add') }}
+            </button>
+        </div>
+    </form>
 </div>
 
-<!-- Keys List -->
+<!-- Keys Table -->
 {% if keys %}
-<div class="animate-in animate-in-delay-2">
-    <div class="table-responsive">
-        <table class="table table-hover">
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl overflow-hidden animate-in animate-in-delay-2">
+    <div class="overflow-x-auto">
+        <table class="w-full">
             <thead>
-                <tr>
-                    <th>{{ t('provider') }}</th>
-                    <th>{{ t('name') }}</th>
-                    <th>{{ t('key') }}</th>
-                    <th>{{ t('status') }}</th>
-                    <th>{{ t('uses') }}</th>
-                    <th>{{ t('errors') }}</th>
-                    <th>{{ t('last_used') }}</th>
-                    <th>{{ t('actions') }}</th>
+                <tr class="bg-[#1a1a35]">
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('provider') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('name') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('key') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('status') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('uses') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('errors') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('last_used') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('actions') }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for k in keys %}
-            <tr>
-                <td><span class="badge bg-{{ 'success' if k.provider == 'gemini' else 'primary' if k.provider == 'openai' else 'warning' }}">{{ k.provider }}</span></td>
-                <td>{{ k.name }}</td>
-                <td><code>{{ k.key_masked }}</code></td>
-                <td>
+            <tr class="border-t border-[#2a2a4a] hover:bg-white/[0.02] transition-colors">
+                <td class="px-5 py-3.5">
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full
+                        {% if k.provider == 'gemini' %}bg-[#1a4a2a] text-green-400
+                        {% elif k.provider == 'openai' %}bg-[#1a2a4a] text-blue-400
+                        {% else %}bg-[#4a3a1a] text-yellow-400{% endif %}">
+                        {{ k.provider }}
+                    </span>
+                </td>
+                <td class="px-5 py-3.5 text-sm text-[#e0e0e0]">{{ k.name }}</td>
+                <td class="px-5 py-3.5"><code class="bg-[#1a1a35] border border-[#2a2a4a] text-purple-300 px-2.5 py-1 rounded-lg text-xs">{{ k.key_masked }}</code></td>
+                <td class="px-5 py-3.5">
                     {% if k.is_active %}
-                    <span class="badge bg-success">{{ t('active') }}</span>
+                    <span class="bg-[#1a4a2a] text-green-400 text-xs font-medium px-2.5 py-1 rounded-full">{{ t('active') }}</span>
                     {% else %}
-                    <span class="badge bg-danger">{{ t('disabled') }}</span>
+                    <span class="bg-[#4a1a1a] text-red-400 text-xs font-medium px-2.5 py-1 rounded-full">{{ t('disabled') }}</span>
                     {% endif %}
                 </td>
-                <td>{{ k.usage_count }}</td>
-                <td>
-                    {% if k.error_count > 0 %}
-                    <span class="text-danger">{{ k.error_count }}</span>
-                    {% else %}
-                    0
-                    {% endif %}
-                </td>
-                <td>{{ k.last_used_at.strftime('%Y-%m-%d %H:%M') if k.last_used_at else '-' }}</td>
-                <td>
-                    <form method="POST" action="{{ url_for('api_keys.toggle', key_id=k._id) }}" class="d-inline">
-                        <button class="btn btn-sm btn-outline-{{ 'warning' if k.is_active else 'success' }}">
-                            {{ t('disable') if k.is_active else t('enable') }}
-                        </button>
-                    </form>
-                    {% if k.error_count > 0 %}
-                    <form method="POST" action="{{ url_for('api_keys.reset_errors', key_id=k._id) }}" class="d-inline">
-                        <button class="btn btn-sm btn-outline-info">{{ t('reset_errors') }}</button>
-                    </form>
-                    {% endif %}
-                    <form method="POST" action="{{ url_for('api_keys.delete', key_id=k._id) }}" class="d-inline"
-                          onsubmit="return confirm('{{ t('delete_key_confirm') }}')">
-                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                    </form>
+                <td class="px-5 py-3.5 text-sm text-[#e0e0e0]">{{ k.usage_count }}</td>
+                <td class="px-5 py-3.5 text-sm {% if k.error_count > 0 %}text-red-400 font-semibold{% else %}text-[#8888aa]{% endif %}">{{ k.error_count }}</td>
+                <td class="px-5 py-3.5 text-sm text-[#8888aa]">{{ k.last_used_at.strftime('%Y-%m-%d %H:%M') if k.last_used_at else '-' }}</td>
+                <td class="px-5 py-3.5">
+                    <div class="flex items-center gap-1.5">
+                        <form method="POST" action="{{ url_for('api_keys.toggle', key_id=k._id) }}" class="inline">
+                            <button class="px-2.5 py-1.5 text-xs font-medium rounded-lg border transition-all
+                                {% if k.is_active %}border-yellow-700 text-yellow-400 hover:bg-[#4a3a1a]{% else %}border-green-700 text-green-400 hover:bg-[#1a4a2a]{% endif %}">
+                                {{ t('disable') if k.is_active else t('enable') }}
+                            </button>
+                        </form>
+                        {% if k.error_count > 0 %}
+                        <form method="POST" action="{{ url_for('api_keys.reset_errors', key_id=k._id) }}" class="inline">
+                            <button class="px-2.5 py-1.5 text-xs font-medium rounded-lg border border-blue-700 text-blue-400 hover:bg-[#1a2a4a] transition-all">
+                                {{ t('reset_errors') }}
+                            </button>
+                        </form>
+                        {% endif %}
+                        <form method="POST" action="{{ url_for('api_keys.delete', key_id=k._id) }}" class="inline"
+                              onsubmit="return confirm('{{ t('delete_key_confirm') }}')">
+                            <button class="px-2.5 py-1.5 text-xs rounded-lg border border-[#2a2a4a] text-[#8888aa] hover:border-red-700 hover:text-red-400 transition-all">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
@@ -91,9 +109,11 @@
     </div>
 </div>
 {% else %}
-<div class="empty-state animate-in">
-    <div class="empty-icon"><i class="bi bi-key"></i></div>
-    <p>{{ t('no_keys_yet') }}</p>
+<div class="text-center py-20 animate-in">
+    <div class="w-20 h-20 rounded-2xl bg-[#1a1a35] border border-[#2a2a4a] flex items-center justify-center mx-auto mb-4 text-[#8888aa] text-3xl">
+        <i class="bi bi-key"></i>
+    </div>
+    <p class="text-[#8888aa]">{{ t('no_keys_yet') }}</p>
 </div>
 {% endif %}
 {% endblock %}

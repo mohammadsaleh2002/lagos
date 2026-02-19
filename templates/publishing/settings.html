@@ -1,50 +1,71 @@
 {% extends "base.html" %}
 {% block title %}{{ t('publishing_settings') }}{% endblock %}
 {% block content %}
-<h2 class="mb-4">{{ t('publishing_settings') }}</h2>
+<h1 class="text-2xl font-bold text-white mb-2">{{ t('publishing_settings') }}</h1>
+<p class="text-sm text-[#8888aa] mb-6">{{ t('configure_in_project') }}</p>
 
-<p class="text-muted" style="font-size:0.9rem;">{{ t('configure_in_project') }}</p>
-
+<div class="space-y-3">
 {% for p in projects %}
-<div class="card mb-3 animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
-    <div class="card-body d-flex justify-content-between align-items-center">
-        <div>
-            <h5 class="mb-1" style="font-weight:600;">{{ p.name }}</h5>
-            <div class="d-flex gap-1 flex-wrap">
-                {% if p.schedule and p.schedule.creation_enabled %}
-                <span class="badge bg-success">{{ t('creation') }}: {{ t('every_min', n=p.schedule.creation_interval_minutes) }}</span>
-                {% else %}
-                <span class="badge bg-secondary">{{ t('creation') }}: {{ t('off') }}</span>
-                {% endif %}
-                {% if p.schedule and p.schedule.publish_enabled %}
-                <span class="badge bg-success">{{ t('publish') }}: {{ t('every_min', n=p.schedule.publish_interval_minutes) }}</span>
-                {% else %}
-                <span class="badge bg-secondary">{{ t('publish') }}: {{ t('off') }}</span>
-                {% endif %}
-            </div>
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl p-5 flex items-center justify-between animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
+    <div>
+        <h3 class="font-semibold text-white text-sm mb-2">{{ p.name }}</h3>
+        <div class="flex flex-wrap gap-1.5">
+            {% if p.schedule and p.schedule.creation_enabled %}
+            <span class="bg-[#1a4a2a] text-green-400 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                {{ t('creation') }}: {{ t('every_min', n=p.schedule.creation_interval_minutes) }}
+            </span>
+            {% else %}
+            <span class="bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs font-medium px-2.5 py-0.5 rounded-full">
+                {{ t('creation') }}: {{ t('off') }}
+            </span>
+            {% endif %}
+            {% if p.schedule and p.schedule.publish_enabled %}
+            <span class="bg-[#1a4a2a] text-green-400 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                {{ t('publish') }}: {{ t('every_min', n=p.schedule.publish_interval_minutes) }}
+            </span>
+            {% else %}
+            <span class="bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs font-medium px-2.5 py-0.5 rounded-full">
+                {{ t('publish') }}: {{ t('off') }}
+            </span>
+            {% endif %}
         </div>
-        <a href="{{ url_for('projects.edit', project_id=p._id) }}" class="btn btn-outline-primary">
-            <i class="bi bi-gear"></i> {{ t('edit_schedule') }}
-        </a>
     </div>
+    <a href="{{ url_for('projects.edit', project_id=p._id) }}"
+       class="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-[#8888aa] border border-[#2a2a4a] rounded-lg hover:text-white hover:border-[#6c4fbf] transition-all no-underline flex-shrink-0">
+        <i class="bi bi-gear"></i> {{ t('edit_schedule') }}
+    </a>
 </div>
 {% endfor %}
+</div>
 
 {% if jobs %}
-<div class="animate-in" style="animation-delay: 0.25s;">
-    <h5 class="section-header mt-4"><i class="bi bi-clock-history"></i> {{ t('running_jobs') }}</h5>
-    <table class="table">
-        <thead><tr><th>{{ t('job_id') }}</th><th>{{ t('next_run') }}</th><th>{{ t('interval') }}</th></tr></thead>
-        <tbody>
-        {% for j in jobs %}
-        <tr>
-            <td><code>{{ j.id }}</code></td>
-            <td>{{ j.next_run }}</td>
-            <td>{{ j.trigger }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="mt-6 animate-in" style="animation-delay: 0.25s;">
+    <div class="flex items-center gap-2 mb-3 pb-2.5 border-b border-[#2a2a4a]">
+        <i class="bi bi-clock-history text-[#6c4fbf]"></i>
+        <h2 class="text-sm font-semibold text-white">{{ t('running_jobs') }}</h2>
+    </div>
+    <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl overflow-hidden">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-[#1a1a35]">
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('job_id') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('next_run') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('interval') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for j in jobs %}
+            <tr class="border-t border-[#2a2a4a] hover:bg-white/[0.02] transition-colors">
+                <td class="px-5 py-3">
+                    <code class="bg-[#1a1a35] border border-[#2a2a4a] text-purple-300 px-2.5 py-1 rounded-lg text-xs">{{ j.id }}</code>
+                </td>
+                <td class="px-5 py-3 text-sm text-[#e0e0e0]">{{ j.next_run }}</td>
+                <td class="px-5 py-3 text-sm text-[#8888aa]">{{ j.trigger }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endif %}
 {% endblock %}

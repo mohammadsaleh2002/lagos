@@ -1,179 +1,192 @@
+{% macro field_label(text) %}<label class="block text-xs font-semibold text-[#8888aa] mb-1.5 uppercase tracking-wide">{{ text }}</label>{% endmacro %}
+{% macro text_input(name, value='', placeholder='', readonly=false) %}
+<input type="text" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}"
+       {% if readonly %}readonly{% endif %}
+       class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all {% if readonly %}opacity-60 cursor-not-allowed{% endif %}">
+{% endmacro %}
+
+<!-- Section header helper -->
+{% macro section(icon, title) %}
+<div class="flex items-center gap-2 mt-7 mb-4 pb-2.5 border-b border-[#2a2a4a]">
+    <i class="bi bi-{{ icon }} text-[#6c4fbf]"></i>
+    <h3 class="text-sm font-semibold text-white">{{ title }}</h3>
+</div>
+{% endmacro %}
+
 <!-- Business Info -->
-<h5 class="section-header"><i class="bi bi-building"></i> {{ t('business_info') }}</h5>
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="form-label">{{ t('project_name') }} *</label>
-        <input type="text" name="name" class="form-control" value="{{ project.name if project else '' }}" required>
+{{ section('building', t('business_info')) }}
+<div class="grid grid-cols-12 gap-3 mb-3">
+    <div class="col-span-12 md:col-span-6">
+        {{ field_label(t('project_name') + ' *') }}
+        <input type="text" name="name" value="{{ project.name if project else '' }}" required
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('project_key') }} *</label>
-        <input type="text" name="db_key" class="form-control" value="{{ project.db_key if project else '' }}" required
-               placeholder="unique_key" {% if is_edit %}readonly{% endif %}>
+    <div class="col-span-12 md:col-span-4">
+        {{ field_label(t('project_key') + ' *') }}
+        <input type="text" name="db_key" value="{{ project.db_key if project else '' }}" required placeholder="unique_key"
+               {% if is_edit %}readonly{% endif %}
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all {% if is_edit %}opacity-60 cursor-not-allowed{% endif %}">
     </div>
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('language') }}</label>
-        <input type="text" name="lang" class="form-control" value="{{ project.lang if project else 'fa' }}">
+    <div class="col-span-12 md:col-span-2">
+        {{ field_label(t('language')) }}
+        <input type="text" name="lang" value="{{ project.lang if project else 'fa' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
 </div>
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="form-label">{{ t('company_name') }}</label>
-        <input type="text" name="company_name" class="form-control" value="{{ project.company_name if project else '' }}">
+<div class="grid grid-cols-2 gap-3 mb-3">
+    <div>
+        {{ field_label(t('company_name')) }}
+        <input type="text" name="company_name" value="{{ project.company_name if project else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-6 mb-3">
-        <label class="form-label">{{ t('business_field') }}</label>
-        <input type="text" name="business_field" class="form-control" value="{{ project.business_field if project else '' }}">
+    <div>
+        {{ field_label(t('business_field')) }}
+        <input type="text" name="business_field" value="{{ project.business_field if project else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
 </div>
 <div class="mb-3">
-    <label class="form-label">{{ t('services_products') }}</label>
-    <textarea name="services_products" class="form-control" rows="2">{{ project.services_products if project else '' }}</textarea>
+    {{ field_label(t('services_products')) }}
+    <textarea name="services_products" rows="2"
+              class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm resize-y transition-all">{{ project.services_products if project else '' }}</textarea>
 </div>
 <div class="mb-3">
-    <label class="form-label">{{ t('about_company') }}</label>
-    <textarea name="about_company" class="form-control" rows="2">{{ project.about_company if project else '' }}</textarea>
+    {{ field_label(t('about_company')) }}
+    <textarea name="about_company" rows="2"
+              class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm resize-y transition-all">{{ project.about_company if project else '' }}</textarea>
 </div>
 
 <!-- Contact -->
-<h5 class="section-header"><i class="bi bi-telephone"></i> {{ t('contact_info') }}</h5>
-<div class="row">
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('phone') }}</label>
-        <input type="text" name="phone" class="form-control" value="{{ project.phone if project else '' }}">
+{{ section('telephone', t('contact_info')) }}
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+    <div>
+        {{ field_label(t('phone')) }}
+        <input type="text" name="phone" value="{{ project.phone if project else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('mobile') }}</label>
-        <input type="text" name="mobile_phone" class="form-control" value="{{ project.mobile_phone if project else '' }}">
+    <div>
+        {{ field_label(t('mobile')) }}
+        <input type="text" name="mobile_phone" value="{{ project.mobile_phone if project else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('email') }}</label>
-        <input type="email" name="email" class="form-control" value="{{ project.email if project else '' }}">
+    <div>
+        {{ field_label(t('email')) }}
+        <input type="email" name="email" value="{{ project.email if project else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('address') }}</label>
-        <input type="text" name="address" class="form-control" value="{{ project.address if project else '' }}">
+    <div>
+        {{ field_label(t('address')) }}
+        <input type="text" name="address" value="{{ project.address if project else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
 </div>
 
-<!-- SEO Keywords -->
-<h5 class="section-header"><i class="bi bi-search"></i> {{ t('seo_content') }}</h5>
+<!-- SEO -->
+{{ section('search', t('seo_content')) }}
 <div class="mb-3">
-    <label class="form-label">{{ t('seed_keywords') }}</label>
-    <input type="text" name="keyword" class="form-control" value="{{ project.keyword if project else '' }}"
-           placeholder="keyword1-keyword2-keyword3">
+    {{ field_label(t('seed_keywords')) }}
+    <input type="text" name="keyword" value="{{ project.keyword if project else '' }}" placeholder="keyword1-keyword2-keyword3"
+           class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
 </div>
-<div class="row">
-    <div class="col-md-4 mb-3">
-        <label class="form-label">{{ t('bullet_template') }} 1</label>
-        <textarea name="bullet1" class="form-control" rows="2">{{ project.bullet1 if project else '' }}</textarea>
+<div class="grid grid-cols-3 gap-3 mb-3">
+    {% for i in [1,2,3] %}
+    <div>
+        {{ field_label(t('bullet_template') + ' ' + i|string) }}
+        <textarea name="bullet{{ i }}" rows="2"
+                  class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm resize-y transition-all">{{ project['bullet' ~ i] if project and project['bullet' ~ i] else '' }}</textarea>
     </div>
-    <div class="col-md-4 mb-3">
-        <label class="form-label">{{ t('bullet_template') }} 2</label>
-        <textarea name="bullet2" class="form-control" rows="2">{{ project.bullet2 if project else '' }}</textarea>
-    </div>
-    <div class="col-md-4 mb-3">
-        <label class="form-label">{{ t('bullet_template') }} 3</label>
-        <textarea name="bullet3" class="form-control" rows="2">{{ project.bullet3 if project else '' }}</textarea>
-    </div>
+    {% endfor %}
 </div>
 
 <!-- WordPress -->
-<h5 class="section-header"><i class="bi bi-wordpress"></i> {{ t('wordpress_connection') }}</h5>
-<div class="row">
-    <div class="col-md-4 mb-3">
-        <label class="form-label">{{ t('wp_url') }}</label>
-        <input type="url" name="wp_url" class="form-control"
+{{ section('wordpress', t('wordpress_connection')) }}
+<div class="grid grid-cols-12 gap-3 mb-3">
+    <div class="col-span-12 md:col-span-4">
+        {{ field_label(t('wp_url')) }}
+        <input type="url" name="wp_url" placeholder="https://yoursite.com"
                value="{{ project.wordpress.url if project and project.wordpress else '' }}"
-               placeholder="https://yoursite.com">
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('wp_username') }}</label>
-        <input type="text" name="wp_username" class="form-control"
-               value="{{ project.wordpress.username if project and project.wordpress else '' }}">
+    <div class="col-span-12 md:col-span-3">
+        {{ field_label(t('wp_username')) }}
+        <input type="text" name="wp_username"
+               value="{{ project.wordpress.username if project and project.wordpress else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-3 mb-3">
-        <label class="form-label">{{ t('wp_app_password') }}</label>
-        <input type="password" name="wp_app_password" class="form-control"
-               value="{{ project.wordpress.app_password if project and project.wordpress else '' }}">
+    <div class="col-span-12 md:col-span-3">
+        {{ field_label(t('wp_app_password')) }}
+        <input type="password" name="wp_app_password"
+               value="{{ project.wordpress.app_password if project and project.wordpress else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-2 mb-3">
-        <label class="form-label">{{ t('category_id') }}</label>
-        <input type="number" name="wp_category_id" class="form-control"
-               value="{{ project.wordpress.category_id if project and project.wordpress else 0 }}">
+    <div class="col-span-12 md:col-span-2">
+        {{ field_label(t('category_id')) }}
+        <input type="number" name="wp_category_id"
+               value="{{ project.wordpress.category_id if project and project.wordpress else 0 }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
 </div>
 
-<!-- Telegram (optional) -->
-<h5 class="section-header"><i class="bi bi-telegram"></i> {{ t('telegram_optional') }}</h5>
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <label class="form-label">{{ t('bot_token') }}</label>
-        <input type="text" name="tg_bot_token" class="form-control"
-               value="{{ project.telegram.bot_token if project and project.telegram else '' }}">
+<!-- Telegram -->
+{{ section('telegram', t('telegram_optional')) }}
+<div class="grid grid-cols-2 gap-3 mb-3">
+    <div>
+        {{ field_label(t('bot_token')) }}
+        <input type="text" name="tg_bot_token"
+               value="{{ project.telegram.bot_token if project and project.telegram else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-6 mb-3">
-        <label class="form-label">{{ t('chat_id') }}</label>
-        <input type="text" name="tg_chat_id" class="form-control"
-               value="{{ project.telegram.chat_id if project and project.telegram else '' }}">
+    <div>
+        {{ field_label(t('chat_id')) }}
+        <input type="text" name="tg_chat_id"
+               value="{{ project.telegram.chat_id if project and project.telegram else '' }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
 </div>
 
 <!-- Schedule -->
-<h5 class="section-header"><i class="bi bi-clock"></i> {{ t('schedule') }}</h5>
-<div class="row">
-    <div class="col-md-6 mb-3">
-        <div class="form-check form-switch mb-2">
-            <input class="form-check-input" type="checkbox" name="creation_enabled" id="creation_enabled"
+{{ section('clock', t('schedule')) }}
+<div class="grid grid-cols-2 gap-3 mb-3">
+    <div class="bg-[#1a1a35] border border-[#2a2a4a] rounded-lg p-4">
+        <label class="flex items-center gap-2 cursor-pointer mb-3">
+            <input type="checkbox" name="creation_enabled" id="creation_enabled" class="w-4 h-4 accent-[#6c4fbf]"
                    {% if project and project.schedule and project.schedule.creation_enabled %}checked{% endif %}>
-            <label class="form-check-label" for="creation_enabled">{{ t('auto_content_creation') }}</label>
-        </div>
-        <label class="form-label">{{ t('interval_minutes') }}</label>
-        <input type="number" name="creation_interval" class="form-control"
-               value="{{ project.schedule.creation_interval_minutes if project and project.schedule else 60 }}">
+            <span class="text-sm text-white font-medium">{{ t('auto_content_creation') }}</span>
+        </label>
+        {{ field_label(t('interval_minutes')) }}
+        <input type="number" name="creation_interval"
+               value="{{ project.schedule.creation_interval_minutes if project and project.schedule else 60 }}"
+               class="w-full bg-[#12122a] border border-[#2a2a4a] rounded-lg px-4 py-2 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-6 mb-3">
-        <div class="form-check form-switch mb-2">
-            <input class="form-check-input" type="checkbox" name="publish_enabled" id="publish_enabled"
+    <div class="bg-[#1a1a35] border border-[#2a2a4a] rounded-lg p-4">
+        <label class="flex items-center gap-2 cursor-pointer mb-3">
+            <input type="checkbox" name="publish_enabled" id="publish_enabled" class="w-4 h-4 accent-[#6c4fbf]"
                    {% if project and project.schedule and project.schedule.publish_enabled %}checked{% endif %}>
-            <label class="form-check-label" for="publish_enabled">{{ t('auto_publishing') }}</label>
-        </div>
-        <label class="form-label">{{ t('interval_minutes') }}</label>
-        <input type="number" name="publish_interval" class="form-control"
-               value="{{ project.schedule.publish_interval_minutes if project and project.schedule else 20 }}">
+            <span class="text-sm text-white font-medium">{{ t('auto_publishing') }}</span>
+        </label>
+        {{ field_label(t('interval_minutes')) }}
+        <input type="number" name="publish_interval"
+               value="{{ project.schedule.publish_interval_minutes if project and project.schedule else 20 }}"
+               class="w-full bg-[#12122a] border border-[#2a2a4a] rounded-lg px-4 py-2 text-[#e0e0e0] text-sm transition-all">
     </div>
 </div>
 
 <!-- Content Settings -->
-<h5 class="section-header"><i class="bi bi-sliders"></i> {{ t('content_settings') }}</h5>
-<div class="row">
-    <div class="col-md-2 mb-3">
-        <label class="form-label">{{ t('num_articles') }}</label>
-        <input type="number" name="number_of_content" class="form-control"
-               value="{{ project.content_settings.number_of_content if project and project.content_settings else 100 }}">
+{{ section('sliders', t('content_settings')) }}
+<div class="grid grid-cols-3 md:grid-cols-6 gap-3">
+    {% set cs = project.content_settings if project and project.content_settings else {} %}
+    {% for fname, label, default in [
+        ('number_of_content', t('num_articles'), 100),
+        ('number_of_keyword', t('num_keywords'), 20),
+        ('number_of_ads', t('num_ads'), 50),
+        ('article_word_count', t('word_count'), 3500),
+        ('article_chapters', t('chapters'), 10),
+        ('ads_word_count', t('ads_words'), 800)
+    ] %}
+    <div>
+        {{ field_label(label) }}
+        <input type="number" name="{{ fname }}" value="{{ cs[fname] if cs and cs[fname] else default }}"
+               class="w-full bg-[#1a1a35] border border-[#2a2a4a] rounded-lg px-4 py-2.5 text-[#e0e0e0] text-sm transition-all">
     </div>
-    <div class="col-md-2 mb-3">
-        <label class="form-label">{{ t('num_keywords') }}</label>
-        <input type="number" name="number_of_keyword" class="form-control"
-               value="{{ project.content_settings.number_of_keyword if project and project.content_settings else 20 }}">
-    </div>
-    <div class="col-md-2 mb-3">
-        <label class="form-label">{{ t('num_ads') }}</label>
-        <input type="number" name="number_of_ads" class="form-control"
-               value="{{ project.content_settings.number_of_ads if project and project.content_settings else 50 }}">
-    </div>
-    <div class="col-md-2 mb-3">
-        <label class="form-label">{{ t('word_count') }}</label>
-        <input type="number" name="article_word_count" class="form-control"
-               value="{{ project.content_settings.article_word_count if project and project.content_settings else 3500 }}">
-    </div>
-    <div class="col-md-2 mb-3">
-        <label class="form-label">{{ t('chapters') }}</label>
-        <input type="number" name="article_chapters" class="form-control"
-               value="{{ project.content_settings.article_chapters if project and project.content_settings else 10 }}">
-    </div>
-    <div class="col-md-2 mb-3">
-        <label class="form-label">{{ t('ads_words') }}</label>
-        <input type="number" name="ads_word_count" class="form-control"
-               value="{{ project.content_settings.ads_word_count if project and project.content_settings else 800 }}">
-    </div>
+    {% endfor %}
 </div>

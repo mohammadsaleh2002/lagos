@@ -1,38 +1,62 @@
 {% extends "base.html" %}
 {% block title %}{{ t('publishing_queue') }}{% endblock %}
 {% block content %}
-<h2 class="mb-4">{{ t('publishing_queue') }}</h2>
+<h1 class="text-2xl font-bold text-white mb-6">{{ t('publishing_queue') }}</h1>
 
+{% if queue_data %}
 {% for qd in queue_data %}
-<div class="card mb-4 animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0" style="font-weight:600;">{{ qd.project.name }}</h5>
-        <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-warning">{{ qd.stats.articles_unpublished }} {{ t('in_queue') }}</span>
-            <span class="badge bg-success">{{ qd.stats.articles_published }} {{ t('published') }}</span>
-            <form method="POST" action="{{ url_for('publishing.publish', project_id=qd.project._id) }}" class="d-inline">
-                <button class="btn btn-sm btn-success" {% if qd.stats.articles_unpublished == 0 %}disabled{% endif %}>
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl mb-4 overflow-hidden animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
+    <!-- Project Header -->
+    <div class="flex items-center justify-between px-5 py-3.5 bg-[#1a1a35] border-b border-[#2a2a4a]">
+        <h3 class="font-semibold text-white text-sm">{{ qd.project.name }}</h3>
+        <div class="flex items-center gap-2">
+            <span class="bg-[#4a3a1a] text-yellow-400 text-xs font-medium px-2.5 py-1 rounded-full">
+                {{ qd.stats.articles_unpublished }} {{ t('in_queue') }}
+            </span>
+            <span class="bg-[#1a4a2a] text-green-400 text-xs font-medium px-2.5 py-1 rounded-full">
+                {{ qd.stats.articles_published }} {{ t('published') }}
+            </span>
+            <form method="POST" action="{{ url_for('publishing.publish', project_id=qd.project._id) }}" class="inline">
+                <button {% if qd.stats.articles_unpublished == 0 %}disabled{% endif %}
+                        class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all
+                               {% if qd.stats.articles_unpublished > 0 %}bg-[#6c4fbf] hover:bg-[#7c5fd0] text-white{% else %}bg-[#1a1a35] text-[#8888aa] cursor-not-allowed opacity-50{% endif %}">
                     <i class="bi bi-upload"></i> {{ t('publish_next') }}
                 </button>
             </form>
         </div>
     </div>
-    <div class="card-body">
+
+    <div class="p-5">
+        <!-- Unpublished Articles -->
         {% if qd.unpublished %}
-        <h6 class="section-header" style="margin-top:0;font-size:0.9rem;"><i class="bi bi-hourglass-split"></i> {{ t('unpublished_articles') }}</h6>
-        <div class="table-responsive">
-            <table class="table table-sm">
-                <thead><tr><th>{{ t('title') }}</th><th>{{ t('tag') }}</th><th>{{ t('created_at') }}</th><th>{{ t('actions') }}</th></tr></thead>
+        <div class="flex items-center gap-2 mb-3">
+            <i class="bi bi-hourglass-split text-yellow-400 text-xs"></i>
+            <h4 class="text-xs font-semibold text-[#8888aa] uppercase tracking-wide">{{ t('unpublished_articles') }}</h4>
+        </div>
+        <div class="bg-[#0d0d1a] border border-[#2a2a4a] rounded-lg overflow-hidden mb-4">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-[#1a1a35]">
+                        <th class="px-4 py-2.5 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('title') }}</th>
+                        <th class="px-4 py-2.5 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('tag') }}</th>
+                        <th class="px-4 py-2.5 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('created_at') }}</th>
+                        <th class="px-4 py-2.5 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('actions') }}</th>
+                    </tr>
+                </thead>
                 <tbody>
                 {% for a in qd.unpublished %}
-                <tr>
-                    <td>{{ a.article_title[:60] }}</td>
-                    <td><span class="badge bg-secondary">{{ a.tag }}</span></td>
-                    <td>{{ a.created_at.strftime('%m/%d %H:%M') if a.created_at else '-' }}</td>
-                    <td>
-                        <form method="POST" action="{{ url_for('publishing.publish', project_id=qd.project._id) }}" class="d-inline">
+                <tr class="border-t border-[#2a2a4a] hover:bg-white/[0.02] transition-colors">
+                    <td class="px-4 py-3 text-sm text-[#e0e0e0]">{{ a.article_title[:60] }}</td>
+                    <td class="px-4 py-3">
+                        <span class="bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs px-2 py-0.5 rounded-full">{{ a.tag }}</span>
+                    </td>
+                    <td class="px-4 py-3 text-xs text-[#8888aa]">{{ a.created_at.strftime('%m/%d %H:%M') if a.created_at else '-' }}</td>
+                    <td class="px-4 py-3">
+                        <form method="POST" action="{{ url_for('publishing.publish', project_id=qd.project._id) }}" class="inline">
                             <input type="hidden" name="article_id" value="{{ a._id }}">
-                            <button class="btn btn-sm btn-outline-success">{{ t('publish') }}</button>
+                            <button class="px-2.5 py-1 text-xs font-medium border border-green-700 text-green-400 hover:bg-[#1a4a2a] rounded-lg transition-all">
+                                {{ t('publish') }}
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -41,24 +65,37 @@
             </table>
         </div>
         {% else %}
-        <p class="text-muted" style="font-size:0.9rem;">{{ t('no_unpublished') }}</p>
+        <p class="text-[#8888aa] text-sm mb-4">{{ t('no_unpublished') }}</p>
         {% endif %}
 
+        <!-- Recently Published -->
         {% if qd.published %}
-        <h6 class="section-header" style="font-size:0.9rem;"><i class="bi bi-check2-circle"></i> {{ t('recently_published') }}</h6>
-        <div class="table-responsive">
-            <table class="table table-sm">
-                <thead><tr><th>{{ t('title') }}</th><th>{{ t('wp_url_col') }}</th><th>{{ t('published_at') }}</th></tr></thead>
+        <div class="flex items-center gap-2 mb-3">
+            <i class="bi bi-check2-circle text-green-400 text-xs"></i>
+            <h4 class="text-xs font-semibold text-[#8888aa] uppercase tracking-wide">{{ t('recently_published') }}</h4>
+        </div>
+        <div class="bg-[#0d0d1a] border border-[#2a2a4a] rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-[#1a1a35]">
+                        <th class="px-4 py-2.5 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('title') }}</th>
+                        <th class="px-4 py-2.5 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('wp_url_col') }}</th>
+                        <th class="px-4 py-2.5 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('published_at') }}</th>
+                    </tr>
+                </thead>
                 <tbody>
                 {% for a in qd.published %}
-                <tr>
-                    <td>{{ a.article_title[:50] }}</td>
-                    <td>
+                <tr class="border-t border-[#2a2a4a] hover:bg-white/[0.02] transition-colors">
+                    <td class="px-4 py-3 text-sm text-[#e0e0e0]">{{ a.article_title[:50] }}</td>
+                    <td class="px-4 py-3">
                         {% if a.wp_post_url %}
-                        <a href="{{ a.wp_post_url }}" target="_blank" style="color:var(--accent);">{{ a.wp_post_url[:40] }}...</a>
-                        {% endif %}
+                        <a href="{{ a.wp_post_url }}" target="_blank"
+                           class="text-xs text-[#9b7fe8] hover:text-white transition-colors no-underline">
+                            {{ a.wp_post_url[:40] }}...
+                        </a>
+                        {% else %}-{% endif %}
                     </td>
-                    <td>{{ a.published_at.strftime('%Y-%m-%d %H:%M') if a.published_at else '-' }}</td>
+                    <td class="px-4 py-3 text-xs text-[#8888aa]">{{ a.published_at.strftime('%Y-%m-%d %H:%M') if a.published_at else '-' }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -68,30 +105,44 @@
     </div>
 </div>
 {% endfor %}
-
-{% if not queue_data %}
-<div class="empty-state animate-in">
-    <div class="empty-icon"><i class="bi bi-send"></i></div>
-    <p>{{ t('no_projects_configured') }}</p>
+{% else %}
+<div class="text-center py-20 animate-in">
+    <div class="w-20 h-20 rounded-2xl bg-[#1a1a35] border border-[#2a2a4a] flex items-center justify-center mx-auto mb-4 text-[#8888aa] text-3xl">
+        <i class="bi bi-send"></i>
+    </div>
+    <p class="text-[#8888aa]">{{ t('no_projects_configured') }}</p>
 </div>
 {% endif %}
 
 <!-- Active Jobs -->
 {% if jobs %}
-<div class="animate-in" style="animation-delay: 0.25s;">
-    <h5 class="section-header mt-4"><i class="bi bi-clock-history"></i> {{ t('active_scheduled_jobs') }}</h5>
-    <table class="table table-sm">
-        <thead><tr><th>{{ t('job_id') }}</th><th>{{ t('next_run') }}</th><th>{{ t('trigger') }}</th></tr></thead>
-        <tbody>
-        {% for j in jobs %}
-        <tr>
-            <td><code>{{ j.id }}</code></td>
-            <td>{{ j.next_run }}</td>
-            <td>{{ j.trigger }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="mt-6 animate-in" style="animation-delay: 0.25s;">
+    <div class="flex items-center gap-2 mb-3 pb-2.5 border-b border-[#2a2a4a]">
+        <i class="bi bi-clock-history text-[#6c4fbf]"></i>
+        <h2 class="text-sm font-semibold text-white">{{ t('active_scheduled_jobs') }}</h2>
+    </div>
+    <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl overflow-hidden">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-[#1a1a35]">
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('job_id') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('next_run') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('trigger') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for j in jobs %}
+            <tr class="border-t border-[#2a2a4a] hover:bg-white/[0.02] transition-colors">
+                <td class="px-5 py-3">
+                    <code class="bg-[#1a1a35] border border-[#2a2a4a] text-purple-300 px-2.5 py-1 rounded-lg text-xs">{{ j.id }}</code>
+                </td>
+                <td class="px-5 py-3 text-sm text-[#e0e0e0]">{{ j.next_run }}</td>
+                <td class="px-5 py-3 text-sm text-[#8888aa]">{{ j.trigger }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endif %}
 {% endblock %}

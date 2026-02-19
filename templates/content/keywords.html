@@ -1,50 +1,73 @@
 {% extends "base.html" %}
 {% block title %}{{ t('keywords') }} - {{ project.name }}{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4 animate-in">
-    <h2>{{ project.name }} - {{ t('keywords') }} & {{ t('titles') }}</h2>
-    <form method="POST" action="{{ url_for('content.generate', project_id=project._id) }}" class="d-inline">
-        <button type="submit" name="action" value="keywords" class="btn btn-outline-primary">
+<!-- Header -->
+<div class="flex items-center justify-between mb-6 animate-in">
+    <h1 class="text-2xl font-bold text-white">{{ project.name }} — {{ t('keywords') }} & {{ t('titles') }}</h1>
+    <form method="POST" action="{{ url_for('content.generate', project_id=project._id) }}" class="flex gap-2">
+        <button type="submit" name="action" value="keywords"
+                class="flex items-center gap-1.5 px-3 py-2.5 text-sm font-semibold text-white bg-[#6c4fbf] hover:bg-[#7c5fd0] rounded-lg transition-all">
             <i class="bi bi-plus-lg"></i> {{ t('generate_keywords') }}
         </button>
-        <button type="submit" name="action" value="titles" class="btn btn-outline-secondary ms-1">
+        <button type="submit" name="action" value="titles"
+                class="flex items-center gap-1.5 px-3 py-2.5 text-sm font-medium text-[#8888aa] border border-[#2a2a4a] rounded-lg hover:text-white hover:border-[#6c4fbf] transition-all">
             <i class="bi bi-plus-lg"></i> {{ t('generate_titles') }}
         </button>
     </form>
 </div>
 
-<div class="row">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- Keywords -->
-    <div class="col-md-6 animate-in animate-in-delay-1">
-        <h5 class="section-header"><i class="bi bi-tags"></i> {{ t('keywords') }} ({{ keywords|length }})</h5>
-        <div class="list-group" style="max-height: 500px; overflow-y: auto; border-radius: 12px;">
+    <div class="animate-in animate-in-delay-1">
+        <div class="flex items-center gap-2 mb-3 pb-2.5 border-b border-[#2a2a4a]">
+            <i class="bi bi-tags text-[#6c4fbf]"></i>
+            <h2 class="text-sm font-semibold text-white">{{ t('keywords') }}</h2>
+            <span class="ml-auto bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs px-2 py-0.5 rounded-full">{{ keywords|length }}</span>
+        </div>
+        <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl overflow-hidden" style="max-height: 520px; overflow-y: auto;">
+            {% if keywords %}
             {% for kw in keywords %}
-            <div class="list-group-item d-flex justify-content-between align-items-center">
-                <span>{{ kw.text }}</span>
+            <div class="flex items-center justify-between px-4 py-2.5 border-b border-[#2a2a4a] last:border-0 hover:bg-white/[0.02] transition-colors">
+                <span class="text-sm text-[#e0e0e0]">{{ kw.text }}</span>
                 {% if kw.is_title_generated %}
-                <span class="badge bg-success">{{ t('used') }}</span>
+                <span class="bg-[#1a4a2a] text-green-400 text-[10px] font-medium px-2 py-0.5 rounded-full flex-shrink-0">{{ t('used') }}</span>
                 {% else %}
-                <span class="badge bg-secondary">{{ t('unused') }}</span>
+                <span class="bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-[10px] font-medium px-2 py-0.5 rounded-full flex-shrink-0">{{ t('unused') }}</span>
                 {% endif %}
             </div>
             {% endfor %}
+            {% else %}
+            <div class="text-center py-12">
+                <p class="text-[#8888aa] text-sm">{{ t('no_keywords_yet') if t('no_keywords_yet') else 'No keywords yet' }}</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 
     <!-- Blog Titles -->
-    <div class="col-md-6 animate-in animate-in-delay-2">
-        <h5 class="section-header"><i class="bi bi-card-heading"></i> {{ t('blog_titles') }} ({{ titles|length }})</h5>
-        <div class="list-group" style="max-height: 500px; overflow-y: auto; border-radius: 12px;">
+    <div class="animate-in animate-in-delay-2">
+        <div class="flex items-center gap-2 mb-3 pb-2.5 border-b border-[#2a2a4a]">
+            <i class="bi bi-card-heading text-[#6c4fbf]"></i>
+            <h2 class="text-sm font-semibold text-white">{{ t('blog_titles') }}</h2>
+            <span class="ml-auto bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs px-2 py-0.5 rounded-full">{{ titles|length }}</span>
+        </div>
+        <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl overflow-hidden" style="max-height: 520px; overflow-y: auto;">
+            {% if titles %}
             {% for bt in titles %}
-            <div class="list-group-item d-flex justify-content-between align-items-center">
-                <span>{{ bt.content[:80] }}</span>
+            <div class="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-[#2a2a4a] last:border-0 hover:bg-white/[0.02] transition-colors">
+                <span class="text-sm text-[#e0e0e0] leading-snug">{{ bt.content[:80] }}</span>
                 {% if bt.is_article_generated %}
-                <span class="badge bg-success">{{ t('generated') }}</span>
+                <span class="bg-[#1a4a2a] text-green-400 text-[10px] font-medium px-2 py-0.5 rounded-full flex-shrink-0">{{ t('generated') }}</span>
                 {% else %}
-                <span class="badge bg-warning">{{ t('pending') }}</span>
+                <span class="bg-[#4a3a1a] text-yellow-400 text-[10px] font-medium px-2 py-0.5 rounded-full flex-shrink-0">{{ t('pending') }}</span>
                 {% endif %}
             </div>
             {% endfor %}
+            {% else %}
+            <div class="text-center py-12">
+                <p class="text-[#8888aa] text-sm">{{ t('no_titles_yet') if t('no_titles_yet') else 'No titles yet' }}</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -61,6 +61,9 @@
 - [x] Section headers with icons in project forms
 - [x] Empty-state components with icon for zero-data screens
 - [x] Multilingual (EN/FA) with full RTL layout support
+- [x] Full Tailwind CSS rewrite — removed Bootstrap, all 14 templates rewritten with Tailwind arbitrary values
+- [x] Removed sidebar toggle button — sidebar is always expanded
+- [x] Persian font changed from Vazirmatn to Vazir
 - [ ] Improve mobile responsiveness
 - [ ] Add loading indicators for long operations
 - [ ] Implement progress bars for content generation

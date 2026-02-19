@@ -1,117 +1,130 @@
 {% extends "base.html" %}
 {% block title %}{{ t('dashboard') }}{% endblock %}
 {% block content %}
-<h2 class="mb-4">{{ t('dashboard') }}</h2>
+<h1 class="text-2xl font-bold text-white mb-6">{{ t('dashboard') }}</h1>
 
-<!-- Summary Stat Cards -->
-<div class="row mb-4">
-    <div class="col-md-3 animate-in animate-in-delay-1">
-        <div class="card stat-card stat-primary">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="bi bi-folder2"></i></div>
-                <div>
-                    <div class="stat-value" data-count="{{ project_stats|length }}">0</div>
-                    <div class="stat-label">{{ t('projects') }}</div>
-                </div>
-            </div>
+<!-- Stat Cards -->
+<div class="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+    <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl p-5 flex items-center gap-4 animate-in animate-in-delay-1 hover:-translate-y-0.5 transition-transform">
+        <div class="w-12 h-12 rounded-xl bg-[#6c4fbf] flex items-center justify-center text-white text-xl shrink-0">
+            <i class="bi bi-folder2"></i>
+        </div>
+        <div>
+            <div class="text-2xl font-extrabold text-white stat-value" data-count="{{ project_stats|length }}">0</div>
+            <div class="text-xs text-[#8888aa] font-semibold uppercase tracking-wide mt-0.5">{{ t('projects') }}</div>
         </div>
     </div>
-    <div class="col-md-3 animate-in animate-in-delay-2">
-        <div class="card stat-card stat-success">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="bi bi-key"></i></div>
-                <div>
-                    <div class="stat-value" data-count="{{ active_keys }}">0</div>
-                    <div class="stat-label">{{ t('api_keys') }} <span class="text-muted">/ {{ api_keys_count }}</span></div>
-                </div>
-            </div>
+    <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl p-5 flex items-center gap-4 animate-in animate-in-delay-2 hover:-translate-y-0.5 transition-transform">
+        <div class="w-12 h-12 rounded-xl bg-[#1a4a2a] flex items-center justify-center text-green-400 text-xl shrink-0">
+            <i class="bi bi-key"></i>
+        </div>
+        <div>
+            <div class="text-2xl font-extrabold text-white stat-value" data-count="{{ active_keys }}">0</div>
+            <div class="text-xs text-[#8888aa] font-semibold uppercase tracking-wide mt-0.5">{{ t('api_keys') }} / {{ api_keys_count }}</div>
         </div>
     </div>
-    <div class="col-md-3 animate-in animate-in-delay-3">
-        <div class="card stat-card stat-info">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="bi bi-file-earmark-text"></i></div>
-                <div>
-                    <div class="stat-value" data-count="{{ project_stats|sum(attribute='articles_total') }}">0</div>
-                    <div class="stat-label">{{ t('total_articles') }}</div>
-                </div>
-            </div>
+    <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl p-5 flex items-center gap-4 animate-in animate-in-delay-3 hover:-translate-y-0.5 transition-transform">
+        <div class="w-12 h-12 rounded-xl bg-[#1a2a4a] flex items-center justify-center text-blue-400 text-xl shrink-0">
+            <i class="bi bi-file-earmark-text"></i>
+        </div>
+        <div>
+            <div class="text-2xl font-extrabold text-white stat-value" data-count="{{ project_stats|sum(attribute='articles_total') }}">0</div>
+            <div class="text-xs text-[#8888aa] font-semibold uppercase tracking-wide mt-0.5">{{ t('total_articles') }}</div>
         </div>
     </div>
-    <div class="col-md-3 animate-in animate-in-delay-4">
-        <div class="card stat-card stat-warning">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="stat-icon"><i class="bi bi-send-check"></i></div>
-                <div>
-                    <div class="stat-value" data-count="{{ project_stats|sum(attribute='articles_published') }}">0</div>
-                    <div class="stat-label">{{ t('published') }}</div>
-                </div>
-            </div>
+    <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl p-5 flex items-center gap-4 animate-in animate-in-delay-4 hover:-translate-y-0.5 transition-transform">
+        <div class="w-12 h-12 rounded-xl bg-[#4a3a1a] flex items-center justify-center text-yellow-400 text-xl shrink-0">
+            <i class="bi bi-send-check"></i>
+        </div>
+        <div>
+            <div class="text-2xl font-extrabold text-white stat-value" data-count="{{ project_stats|sum(attribute='articles_published') }}">0</div>
+            <div class="text-xs text-[#8888aa] font-semibold uppercase tracking-wide mt-0.5">{{ t('published') }}</div>
         </div>
     </div>
 </div>
 
-<!-- Per-project stats -->
+<!-- Project Overview -->
 {% if project_stats %}
-<div class="animate-in" style="animation-delay: 0.25s;">
-    <h5 class="section-header"><i class="bi bi-bar-chart"></i> {{ t('project_overview') }}</h5>
-    <div class="table-responsive">
-        <table class="table table-hover">
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl overflow-hidden mb-6 animate-in">
+    <div class="px-6 py-4 border-b border-[#2a2a4a] flex items-center gap-2">
+        <i class="bi bi-bar-chart text-[#6c4fbf]"></i>
+        <h2 class="font-semibold text-white text-sm">{{ t('project_overview') }}</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full">
             <thead>
-                <tr>
-                    <th>{{ t('projects') }}</th>
-                    <th>{{ t('keywords') }}</th>
-                    <th>{{ t('titles') }}</th>
-                    <th>{{ t('articles') }}</th>
-                    <th>{{ t('published') }}</th>
-                    <th>{{ t('queue') }}</th>
-                    <th>{{ t('actions') }}</th>
+                <tr class="bg-[#1a1a35]">
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('projects') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('keywords') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('titles') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('articles') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('published') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('queue') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('actions') }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for ps in project_stats %}
-                <tr>
-                    <td><strong>{{ ps.project.name }}</strong></td>
-                    <td>{{ ps.keywords }}</td>
-                    <td>{{ ps.blog_titles }}</td>
-                    <td>{{ ps.articles_total }}</td>
-                    <td><span class="badge bg-success">{{ ps.articles_published }}</span></td>
-                    <td><span class="badge bg-warning">{{ ps.articles_unpublished }}</span></td>
-                    <td>
-                        <a href="{{ url_for('content.articles', project_id=ps.project._id) }}" class="btn btn-sm btn-outline-primary">
+            <tr class="border-t border-[#2a2a4a] hover:bg-white/[0.02] transition-colors">
+                <td class="px-5 py-3.5 font-semibold text-sm text-white">{{ ps.project.name }}</td>
+                <td class="px-5 py-3.5 text-sm text-[#e0e0e0]">{{ ps.keywords }}</td>
+                <td class="px-5 py-3.5 text-sm text-[#e0e0e0]">{{ ps.blog_titles }}</td>
+                <td class="px-5 py-3.5 text-sm text-[#e0e0e0]">{{ ps.articles_total }}</td>
+                <td class="px-5 py-3.5"><span class="bg-[#1a4a2a] text-green-400 text-xs font-medium px-2.5 py-1 rounded-full">{{ ps.articles_published }}</span></td>
+                <td class="px-5 py-3.5"><span class="bg-[#4a3a1a] text-yellow-400 text-xs font-medium px-2.5 py-1 rounded-full">{{ ps.articles_unpublished }}</span></td>
+                <td class="px-5 py-3.5">
+                    <div class="flex items-center gap-1.5">
+                        <a href="{{ url_for('content.articles', project_id=ps.project._id) }}"
+                           class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1a1a35] border border-[#2a2a4a] text-[#9b7fe8] text-xs font-medium rounded-lg hover:border-[#6c4fbf] hover:bg-[#6c4fbf]/10 transition-all no-underline">
                             <i class="bi bi-file-text"></i> {{ t('content') }}
                         </a>
-                        <a href="{{ url_for('projects.edit', project_id=ps.project._id) }}" class="btn btn-sm btn-outline-secondary">
+                        <a href="{{ url_for('projects.edit', project_id=ps.project._id) }}"
+                           class="inline-flex items-center px-2.5 py-1.5 bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs rounded-lg hover:border-[#6c4fbf] hover:text-white transition-all no-underline">
                             <i class="bi bi-gear"></i>
                         </a>
-                    </td>
-                </tr>
+                    </div>
+                </td>
+            </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 {% else %}
-<div class="empty-state animate-in">
-    <div class="empty-icon"><i class="bi bi-folder-plus"></i></div>
-    <p>{{ t('no_projects_yet') }}</p>
-    <a href="{{ url_for('projects.create') }}" class="btn btn-primary">{{ t('create_first_project') }}</a>
+<div class="text-center py-20 animate-in">
+    <div class="w-20 h-20 rounded-2xl bg-[#1a1a35] border border-[#2a2a4a] flex items-center justify-center mx-auto mb-4 text-[#8888aa] text-3xl">
+        <i class="bi bi-folder-plus"></i>
+    </div>
+    <p class="text-[#8888aa] mb-4">{{ t('no_projects_yet') }}</p>
+    <a href="{{ url_for('projects.create') }}"
+       class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#6c4fbf] hover:bg-[#7c5fd0] text-white text-sm font-semibold rounded-lg transition-all no-underline">
+        <i class="bi bi-plus-lg"></i> {{ t('create_first_project') }}
+    </a>
 </div>
 {% endif %}
 
-<!-- Active Jobs -->
+<!-- Scheduled Jobs -->
 {% if jobs %}
-<div class="animate-in" style="animation-delay: 0.3s;">
-    <h5 class="section-header mt-4"><i class="bi bi-clock-history"></i> {{ t('scheduled_jobs') }}</h5>
-    <div class="table-responsive">
-        <table class="table table-sm">
-            <thead><tr><th>{{ t('job_id') }}</th><th>{{ t('next_run') }}</th><th>{{ t('trigger') }}</th></tr></thead>
+<div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl overflow-hidden animate-in">
+    <div class="px-6 py-4 border-b border-[#2a2a4a] flex items-center gap-2">
+        <i class="bi bi-clock-history text-[#6c4fbf]"></i>
+        <h2 class="font-semibold text-white text-sm">{{ t('scheduled_jobs') }}</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-[#1a1a35]">
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('job_id') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('next_run') }}</th>
+                    <th class="px-5 py-3 text-left text-[10px] font-semibold text-[#8888aa] uppercase tracking-wider">{{ t('trigger') }}</th>
+                </tr>
+            </thead>
             <tbody>
             {% for job in jobs %}
-            <tr>
-                <td><code>{{ job.id }}</code></td>
-                <td>{{ job.next_run }}</td>
-                <td>{{ job.trigger }}</td>
+            <tr class="border-t border-[#2a2a4a] hover:bg-white/[0.02]">
+                <td class="px-5 py-3 text-sm"><code class="bg-[#1a1a35] text-purple-300 px-2 py-0.5 rounded text-xs">{{ job.id }}</code></td>
+                <td class="px-5 py-3 text-sm text-[#e0e0e0]">{{ job.next_run }}</td>
+                <td class="px-5 py-3 text-sm text-[#e0e0e0]">{{ job.trigger }}</td>
             </tr>
             {% endfor %}
             </tbody>

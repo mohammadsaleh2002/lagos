@@ -11,7 +11,7 @@ Python Flask application that automates SEO blog content creation using AI and p
 - **WordPress**: REST API via requests
 - **Auth**: Flask-Login with password hashing
 - **Encryption**: Fernet (cryptography) for API key storage
-- **Fonts**: Inter (LTR) + Vazirmatn (RTL/Persian) via Google Fonts
+- **Fonts**: Inter (LTR) + Vazir (RTL/Persian) via Google Fonts
 
 ## Project Structure
 ```

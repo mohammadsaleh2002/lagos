@@ -1,40 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ========================================
-    // Sidebar Toggle
-    // ========================================
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('mainContent');
-    const sidebarToggle = document.getElementById('sidebarToggle');
-
-    if (sidebarToggle && sidebar && mainContent) {
-        const saved = localStorage.getItem('sidebarCollapsed');
-        if (saved === 'true') {
-            sidebar.classList.add('collapsed');
-            mainContent.classList.add('expanded');
-        }
-
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('expanded');
-            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-
-            const icon = sidebarToggle.querySelector('i');
-            if (sidebar.classList.contains('collapsed')) {
-                icon.className = 'bi bi-chevron-right';
-            } else {
-                icon.className = 'bi bi-chevron-left';
-            }
-        });
-
-        // Set initial icon
-        if (sidebar.classList.contains('collapsed')) {
-            const icon = sidebarToggle.querySelector('i');
-            if (icon) icon.className = 'bi bi-chevron-right';
-        }
-    }
-
-    // ========================================
     // Toast Auto-dismiss
     // ========================================
     const toasts = document.querySelectorAll('.toast-modern');

@@ -1,53 +1,61 @@
 {% extends "base.html" %}
 {% block title %}{{ t('projects') }}{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>{{ t('projects') }}</h2>
-    <a href="{{ url_for('projects.create') }}" class="btn btn-primary">
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-white">{{ t('projects') }}</h1>
+    <a href="{{ url_for('projects.create') }}"
+       class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#6c4fbf] hover:bg-[#7c5fd0] text-white text-sm font-semibold rounded-lg transition-all no-underline">
         <i class="bi bi-plus-lg"></i> {{ t('new_project') }}
     </a>
 </div>
 
 {% if projects %}
-<div class="row">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
     {% for p in projects %}
-    <div class="col-md-6 col-lg-4 mb-3 animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title" style="font-weight:600;">{{ p.name }}</h5>
-                <p class="text-muted mb-1" style="font-size:0.9rem;">{{ p.company_name }}</p>
-                <p class="text-muted small mb-2">{{ p.business_field }}</p>
-                <div class="d-flex gap-1 flex-wrap">
-                    <span class="badge bg-secondary">{{ p.lang }}</span>
-                    {% if p.wordpress and p.wordpress.url %}
-                    <span class="badge bg-info">{{ t('wp_connected') }}</span>
-                    {% endif %}
-                    {% if p.schedule and p.schedule.publish_enabled %}
-                    <span class="badge bg-success">{{ t('auto_publish') }}</span>
-                    {% endif %}
-                </div>
+    <div class="bg-[#12122a] border border-[#2a2a4a] rounded-xl flex flex-col hover:border-[#6c4fbf]/40 hover:-translate-y-0.5 transition-all animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
+        <div class="p-5 flex-1">
+            <h3 class="font-semibold text-white text-base mb-1">{{ p.name }}</h3>
+            <p class="text-[#8888aa] text-sm mb-0.5">{{ p.company_name }}</p>
+            <p class="text-[#8888aa] text-xs mb-3">{{ p.business_field }}</p>
+            <div class="flex flex-wrap gap-1.5">
+                <span class="bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs px-2.5 py-0.5 rounded-full">{{ p.lang }}</span>
+                {% if p.wordpress and p.wordpress.url %}
+                <span class="bg-[#1a2a4a] text-blue-400 text-xs px-2.5 py-0.5 rounded-full">{{ t('wp_connected') }}</span>
+                {% endif %}
+                {% if p.schedule and p.schedule.publish_enabled %}
+                <span class="bg-[#1a4a2a] text-green-400 text-xs px-2.5 py-0.5 rounded-full">{{ t('auto_publish') }}</span>
+                {% endif %}
             </div>
-            <div class="card-footer d-flex gap-2">
-                <a href="{{ url_for('content.articles', project_id=p._id) }}" class="btn btn-sm btn-outline-primary flex-grow-1">
-                    <i class="bi bi-file-text"></i> {{ t('content') }}
-                </a>
-                <a href="{{ url_for('projects.edit', project_id=p._id) }}" class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-pencil"></i>
-                </a>
-                <form method="POST" action="{{ url_for('projects.delete', project_id=p._id) }}"
-                      onsubmit="return confirm('{{ t('delete_project_confirm') }}')">
-                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                </form>
-            </div>
+        </div>
+        <div class="px-5 py-3 border-t border-[#2a2a4a] flex gap-2">
+            <a href="{{ url_for('content.articles', project_id=p._id) }}"
+               class="flex-1 text-center py-2 bg-[#1a1a35] border border-[#2a2a4a] text-[#9b7fe8] text-xs font-medium rounded-lg hover:border-[#6c4fbf] hover:bg-[#6c4fbf]/10 transition-all no-underline">
+                <i class="bi bi-file-text me-1"></i> {{ t('content') }}
+            </a>
+            <a href="{{ url_for('projects.edit', project_id=p._id) }}"
+               class="px-3 py-2 bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs rounded-lg hover:border-[#6c4fbf] hover:text-white transition-all no-underline">
+                <i class="bi bi-pencil"></i>
+            </a>
+            <form method="POST" action="{{ url_for('projects.delete', project_id=p._id) }}"
+                  onsubmit="return confirm('{{ t('delete_project_confirm') }}')">
+                <button type="submit" class="px-3 py-2 bg-[#1a1a35] border border-[#2a2a4a] text-[#8888aa] text-xs rounded-lg hover:border-red-700 hover:text-red-400 transition-all">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
         </div>
     </div>
     {% endfor %}
 </div>
 {% else %}
-<div class="empty-state animate-in">
-    <div class="empty-icon"><i class="bi bi-folder-plus"></i></div>
-    <p>{{ t('no_projects_yet') }}</p>
-    <a href="{{ url_for('projects.create') }}" class="btn btn-primary">{{ t('create_first_project') }}</a>
+<div class="text-center py-20 animate-in">
+    <div class="w-20 h-20 rounded-2xl bg-[#1a1a35] border border-[#2a2a4a] flex items-center justify-center mx-auto mb-4 text-[#8888aa] text-3xl">
+        <i class="bi bi-folder-plus"></i>
+    </div>
+    <p class="text-[#8888aa] mb-4">{{ t('no_projects_yet') }}</p>
+    <a href="{{ url_for('projects.create') }}"
+       class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#6c4fbf] hover:bg-[#7c5fd0] text-white text-sm font-semibold rounded-lg transition-all no-underline">
+        <i class="bi bi-plus-lg"></i> {{ t('create_first_project') }}
+    </a>
 </div>
 {% endif %}
 {% endblock %}

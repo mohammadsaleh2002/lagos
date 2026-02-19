@@ -1,144 +1,209 @@
 <!DOCTYPE html>
-<html lang="{{ current_lang }}" dir="{{ 'rtl' if is_rtl else 'ltr' }}" data-bs-theme="dark">
+<html lang="{{ current_lang }}" dir="{{ 'rtl' if is_rtl else 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ t('app_name') }}{% endblock %} - Content Platform</title>
+    <title>{% block title %}{{ t('app_name') }}{% endblock %} - Lagos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'app-bg':   '#0d0d1a',
+                    'sb-bg':    '#141428',
+                    'card':     '#12122a',
+                    'surface':  '#1a1a35',
+                    'app-border': '#2a2a4a',
+                    'label':    '#8888aa',
+                    'body-text':'#e0e0e0',
+                    'purple': {
+                        DEFAULT: '#6c4fbf',
+                        hover:   '#7c5fd0',
+                        light:   '#9b7fe8',
+                        muted:   'rgba(108,79,191,0.15)',
+                    },
+                    'success-bg': '#1a4a2a',
+                    'warn-bg':    '#4a3a1a',
+                    'info-bg':    '#1a2a4a',
+                    'danger-bg':  '#4a1a1a',
+                }
+            }
+        }
+    }
+    </script>
     {% if is_rtl %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    {% else %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     {% endif %}
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <style>
+        body { background-color:#0d0d1a; color:#e0e0e0; }
+        -webkit-font-smoothing: antialiased;
+    </style>
 </head>
-<body>
+<body class="bg-app-bg text-body-text">
+
 {% if current_user.is_authenticated %}
 
 <!-- Toast Container -->
-<div class="toast-container" id="toastContainer">
+<div class="toast-container fixed top-5 right-5 z-50 flex flex-col gap-2" id="toastContainer">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
-    <div class="toast-modern toast-{{ category }}" role="alert">
-        <div class="toast-icon">
-            <i class="bi bi-{{ 'check-circle' if category == 'success' else 'exclamation-triangle' if category == 'warning' else 'x-circle' if category == 'danger' else 'info-circle' }}"></i>
+    <div class="toast-modern flex items-center gap-3 min-w-[300px] max-w-[420px] bg-[#1a1a35] border border-[#2a2a4a] rounded-xl p-4 shadow-2xl relative overflow-hidden">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm
+            {% if category == 'success' %}bg-[#1a4a2a] text-green-400
+            {% elif category == 'danger' %}bg-[#4a1a1a] text-red-400
+            {% elif category == 'warning' %}bg-[#4a3a1a] text-yellow-400
+            {% else %}bg-[#1a2a4a] text-blue-400{% endif %}">
+            <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}x-circle{% elif category == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
         </div>
-        <div class="toast-body">{{ message }}</div>
-        <button class="toast-close" onclick="this.parentElement.classList.add('toast-exit');setTimeout(()=>this.parentElement.remove(),300)">
+        <span class="flex-1 text-sm text-[#e0e0e0]">{{ message }}</span>
+        <button class="text-[#8888aa] hover:text-white text-lg leading-none transition-colors"
+                onclick="this.closest('.toast-modern').classList.add('toast-exit');setTimeout(()=>this.closest('.toast-modern').remove(),300)">
             <i class="bi bi-x"></i>
         </button>
-        <div class="toast-progress"><div class="toast-progress-bar"></div></div>
+        <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-[#2a2a4a]">
+            <div class="toast-progress-bar h-full {% if category == 'success' %}bg-green-500{% elif category == 'danger' %}bg-red-500{% elif category == 'warning' %}bg-yellow-500{% else %}bg-blue-500{% endif %}"></div>
+        </div>
     </div>
     {% endfor %}
     {% endif %}
     {% endwith %}
 </div>
 
-<div class="d-flex">
+<!-- Layout -->
+<div class="flex">
+
     <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
-            <i class="bi bi-chevron-left"></i>
-        </div>
-        <div class="sidebar-inner">
+    <nav class="sidebar fixed top-0 {% if is_rtl %}right-0{% else %}left-0{% endif %} h-screen bg-[#141428] flex flex-col z-40 border-{% if is_rtl %}left{% else %}right{% endif %} border-[#2a2a4a]" id="sidebar">
+
+        <div class="flex flex-col h-full px-3 py-5 overflow-hidden">
+
             <!-- Brand -->
-            <a href="{{ url_for('dashboard.index') }}" class="sidebar-brand">
-                <div class="brand-icon"><i class="bi bi-globe2"></i></div>
-                <span class="brand-text">{{ t('app_name') }}</span>
+            <a href="{{ url_for('dashboard.index') }}" class="flex items-center gap-3 px-2 mb-7 no-underline overflow-hidden whitespace-nowrap">
+                <div class="w-9 h-9 rounded-[10px] bg-[#6c4fbf] flex items-center justify-center text-white text-base shrink-0">
+                    <i class="bi bi-globe2"></i>
+                </div>
+                <span class="brand-text text-lg font-bold text-white">{{ t('app_name') }}</span>
             </a>
 
-            <!-- Navigation -->
-            <ul class="nav flex-column flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'dashboard.index' %}active{% endif %}"
-                       href="{{ url_for('dashboard.index') }}">
-                        <i class="bi bi-grid-1x2"></i>
+            <!-- Nav -->
+            <ul class="flex flex-col gap-1 flex-1 list-none p-0 m-0">
+                <li>
+                    <a href="{{ url_for('dashboard.index') }}"
+                       class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline whitespace-nowrap overflow-hidden transition-all
+                              {% if request.endpoint == 'dashboard.index' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] hover:bg-white/5 hover:text-white{% endif %}">
+                        <i class="bi bi-grid-1x2 w-5 text-center shrink-0"></i>
                         <span class="nav-text">{{ t('dashboard') }}</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.blueprint == 'projects' %}active{% endif %}"
-                       href="{{ url_for('projects.list_projects') }}">
-                        <i class="bi bi-folder2"></i>
+                <li>
+                    <a href="{{ url_for('projects.list_projects') }}"
+                       class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline whitespace-nowrap overflow-hidden transition-all
+                              {% if request.blueprint == 'projects' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] hover:bg-white/5 hover:text-white{% endif %}">
+                        <i class="bi bi-folder2 w-5 text-center shrink-0"></i>
                         <span class="nav-text">{{ t('projects') }}</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.blueprint == 'api_keys' %}active{% endif %}"
-                       href="{{ url_for('api_keys.list_keys') }}">
-                        <i class="bi bi-key"></i>
+                <li>
+                    <a href="{{ url_for('api_keys.list_keys') }}"
+                       class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline whitespace-nowrap overflow-hidden transition-all
+                              {% if request.blueprint == 'api_keys' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] hover:bg-white/5 hover:text-white{% endif %}">
+                        <i class="bi bi-key w-5 text-center shrink-0"></i>
                         <span class="nav-text">{{ t('api_keys') }}</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.blueprint == 'content' %}active{% endif %}"
-                       href="{{ url_for('content.overview') }}">
-                        <i class="bi bi-file-earmark-text"></i>
+                <li>
+                    <a href="{{ url_for('content.overview') }}"
+                       class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline whitespace-nowrap overflow-hidden transition-all
+                              {% if request.blueprint == 'content' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] hover:bg-white/5 hover:text-white{% endif %}">
+                        <i class="bi bi-file-earmark-text w-5 text-center shrink-0"></i>
                         <span class="nav-text">{{ t('content') }}</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.blueprint == 'publishing' %}active{% endif %}"
-                       href="{{ url_for('publishing.queue') }}">
-                        <i class="bi bi-send"></i>
+                <li>
+                    <a href="{{ url_for('publishing.queue') }}"
+                       class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium no-underline whitespace-nowrap overflow-hidden transition-all
+                              {% if request.blueprint == 'publishing' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] hover:bg-white/5 hover:text-white{% endif %}">
+                        <i class="bi bi-send w-5 text-center shrink-0"></i>
                         <span class="nav-text">{{ t('publishing') }}</span>
                     </a>
                 </li>
             </ul>
 
             <!-- Footer -->
-            <div class="sidebar-footer">
-                <div class="sidebar-footer-content">
-                    <div class="lang-switch">
-                        <a href="{{ url_for('set_lang', lang='fa') }}"
-                           class="btn btn-sm {{ 'btn-primary' if current_lang == 'fa' else 'btn-outline-secondary' }} flex-grow-1">
-                            فا
-                        </a>
-                        <a href="{{ url_for('set_lang', lang='en') }}"
-                           class="btn btn-sm {{ 'btn-primary' if current_lang == 'en' else 'btn-outline-secondary' }} flex-grow-1">
-                            EN
-                        </a>
-                    </div>
-                    <div class="user-badge">
-                        <div class="user-avatar">{{ current_user.username[0]|upper if current_user.username else 'A' }}</div>
-                        <span class="user-name" style="font-size:0.85rem;">{{ current_user.username }}</span>
-                    </div>
-                    <a class="nav-link" href="{{ url_for('auth.logout') }}" style="color:var(--text-secondary);font-size:0.85rem;">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span class="nav-text">{{ t('logout') }}</span>
+            <div class="border-t border-[#2a2a4a] pt-3 mt-3">
+                <!-- Language switch -->
+                <div class="lang-switch flex gap-1 mb-2 overflow-hidden">
+                    <a href="{{ url_for('set_lang', lang='fa') }}"
+                       class="flex-1 text-center text-xs py-1.5 rounded-md font-medium no-underline transition-all
+                              {% if current_lang == 'fa' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] border border-[#2a2a4a] hover:border-[#6c4fbf] hover:text-white{% endif %}">
+                        فا
+                    </a>
+                    <a href="{{ url_for('set_lang', lang='en') }}"
+                       class="flex-1 text-center text-xs py-1.5 rounded-md font-medium no-underline transition-all
+                              {% if current_lang == 'en' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] border border-[#2a2a4a] hover:border-[#6c4fbf] hover:text-white{% endif %}">
+                        EN
                     </a>
                 </div>
+                <!-- User badge -->
+                <div class="flex items-center gap-2 px-2 py-2 rounded-lg bg-white/[0.03] overflow-hidden whitespace-nowrap mb-1">
+                    <div class="w-8 h-8 rounded-lg bg-[#6c4fbf] flex items-center justify-center text-white font-bold text-sm shrink-0">
+                        {{ current_user.username[0]|upper if current_user.username else 'A' }}
+                    </div>
+                    <span class="user-name text-sm text-[#e0e0e0] truncate">{{ current_user.username }}</span>
+                </div>
+                <!-- Logout -->
+                <a href="{{ url_for('auth.logout') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#8888aa] hover:text-white hover:bg-white/5 no-underline transition-all whitespace-nowrap overflow-hidden">
+                    <i class="bi bi-box-arrow-right w-5 text-center shrink-0"></i>
+                    <span class="nav-text">{{ t('logout') }}</span>
+                </a>
             </div>
+
         </div>
     </nav>
 
-    <!-- Main content -->
-    <main class="main-content" id="mainContent">
+    <!-- Main -->
+    <main class="main-content flex-1 min-h-screen p-8" id="mainContent">
         {% block content %}{% endblock %}
     </main>
+
 </div>
 
 {% else %}
-<!-- Non-authenticated pages -->
-<div class="auth-wrapper">
-    <div class="auth-card">
-        <!-- Language switcher -->
-        <div class="text-center mb-3">
+<!-- Auth pages -->
+<div class="min-h-screen flex items-center justify-center relative overflow-hidden" style="background:#0d0d1a;">
+    <!-- Decorative blobs -->
+    <div class="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(108,79,191,0.08) 0%,transparent 65%);"></div>
+    <div class="absolute bottom-0 right-1/4 w-[350px] h-[350px] rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(108,79,191,0.05) 0%,transparent 65%);"></div>
+
+    <div class="w-full max-w-[420px] relative z-10 px-4">
+        <!-- Language switch -->
+        <div class="flex justify-center gap-2 mb-6">
             <a href="{{ url_for('set_lang', lang='fa') }}"
-               class="btn btn-sm {{ 'btn-primary' if current_lang == 'fa' else 'btn-outline-secondary' }}">فارسی</a>
+               class="px-4 py-1.5 rounded-lg text-sm font-medium no-underline transition-all
+                      {% if current_lang == 'fa' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] border border-[#2a2a4a] hover:border-[#6c4fbf] hover:text-white{% endif %}">
+                فارسی
+            </a>
             <a href="{{ url_for('set_lang', lang='en') }}"
-               class="btn btn-sm {{ 'btn-primary' if current_lang == 'en' else 'btn-outline-secondary' }}">English</a>
+               class="px-4 py-1.5 rounded-lg text-sm font-medium no-underline transition-all
+                      {% if current_lang == 'en' %}bg-[#6c4fbf] text-white{% else %}text-[#8888aa] border border-[#2a2a4a] hover:border-[#6c4fbf] hover:text-white{% endif %}">
+                English
+            </a>
         </div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="border-radius:12px;">
+        <div class="mb-4 px-4 py-3 rounded-xl border text-sm
+            {% if category == 'success' %}bg-[#1a4a2a] border-green-800 text-green-300
+            {% elif category == 'danger' %}bg-[#4a1a1a] border-red-800 text-red-300
+            {% else %}bg-[#1a1a35] border-[#2a2a4a] text-[#e0e0e0]{% endif %}">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         {% endfor %}
         {% endif %}
@@ -149,7 +214,6 @@
 </div>
 {% endif %}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
