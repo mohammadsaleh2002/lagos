@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ t('edit_project') }} - {{ project.name }}{% endblock %}
+{% block content %}
+<h2 class="mb-4 animate-in">{{ t('edit') }}: {{ project.name }}</h2>
+{% set is_edit = True %}
+<div class="card animate-in animate-in-delay-1">
+    <div class="card-body">
+        <form method="POST">
+            {% include "projects/_form.html" %}
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> {{ t('save_changes') }}</button>
+                <a href="{{ url_for('projects.list_projects') }}" class="btn btn-outline-secondary">{{ t('cancel') }}</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

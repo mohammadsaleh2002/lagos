@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang }}" dir="{{ 'rtl' if is_rtl else 'ltr' }}" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ t('app_name') }}{% endblock %} - Content Platform</title>
+    {% if is_rtl %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% else %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+{% if current_user.is_authenticated %}
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="toast-modern toast-{{ category }}" role="alert">
+        <div class="toast-icon">
+            <i class="bi bi-{{ 'check-circle' if category == 'success' else 'exclamation-triangle' if category == 'warning' else 'x-circle' if category == 'danger' else 'info-circle' }}"></i>
+        </div>
+        <div class="toast-body">{{ message }}</div>
+        <button class="toast-close" onclick="this.parentElement.classList.add('toast-exit');setTimeout(()=>this.parentElement.remove(),300)">
+            <i class="bi bi-x"></i>
+        </button>
+        <div class="toast-progress"><div class="toast-progress-bar"></div></div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+            <i class="bi bi-chevron-left"></i>
+        </div>
+        <div class="sidebar-inner">
+            <!-- Brand -->
+            <a href="{{ url_for('dashboard.index') }}" class="sidebar-brand">
+                <div class="brand-icon"><i class="bi bi-globe2"></i></div>
+                <span class="brand-text">{{ t('app_name') }}</span>
+            </a>
+
+            <!-- Navigation -->
+            <ul class="nav flex-column flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'dashboard.index' %}active{% endif %}"
+                       href="{{ url_for('dashboard.index') }}">
+                        <i class="bi bi-grid-1x2"></i>
+                        <span class="nav-text">{{ t('dashboard') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.blueprint == 'projects' %}active{% endif %}"
+                       href="{{ url_for('projects.list_projects') }}">
+                        <i class="bi bi-folder2"></i>
+                        <span class="nav-text">{{ t('projects') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.blueprint == 'api_keys' %}active{% endif %}"
+                       href="{{ url_for('api_keys.list_keys') }}">
+                        <i class="bi bi-key"></i>
+                        <span class="nav-text">{{ t('api_keys') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.blueprint == 'content' %}active{% endif %}"
+                       href="{{ url_for('content.overview') }}">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span class="nav-text">{{ t('content') }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.blueprint == 'publishing' %}active{% endif %}"
+                       href="{{ url_for('publishing.queue') }}">
+                        <i class="bi bi-send"></i>
+                        <span class="nav-text">{{ t('publishing') }}</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Footer -->
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-content">
+                    <div class="lang-switch">
+                        <a href="{{ url_for('set_lang', lang='fa') }}"
+                           class="btn btn-sm {{ 'btn-primary' if current_lang == 'fa' else 'btn-outline-secondary' }} flex-grow-1">
+                            فا
+                        </a>
+                        <a href="{{ url_for('set_lang', lang='en') }}"
+                           class="btn btn-sm {{ 'btn-primary' if current_lang == 'en' else 'btn-outline-secondary' }} flex-grow-1">
+                            EN
+                        </a>
+                    </div>
+                    <div class="user-badge">
+                        <div class="user-avatar">{{ current_user.username[0]|upper if current_user.username else 'A' }}</div>
+                        <span class="user-name" style="font-size:0.85rem;">{{ current_user.username }}</span>
+                    </div>
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}" style="color:var(--text-secondary);font-size:0.85rem;">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="nav-text">{{ t('logout') }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main-content" id="mainContent">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+{% else %}
+<!-- Non-authenticated pages -->
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <!-- Language switcher -->
+        <div class="text-center mb-3">
+            <a href="{{ url_for('set_lang', lang='fa') }}"
+               class="btn btn-sm {{ 'btn-primary' if current_lang == 'fa' else 'btn-outline-secondary' }}">فارسی</a>
+            <a href="{{ url_for('set_lang', lang='en') }}"
+               class="btn btn-sm {{ 'btn-primary' if current_lang == 'en' else 'btn-outline-secondary' }}">English</a>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="border-radius:12px;">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content_noauth %}{% endblock %}
+    </div>
+</div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

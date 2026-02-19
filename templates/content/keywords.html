@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}{{ t('keywords') }} - {{ project.name }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 animate-in">
+    <h2>{{ project.name }} - {{ t('keywords') }} & {{ t('titles') }}</h2>
+    <form method="POST" action="{{ url_for('content.generate', project_id=project._id) }}" class="d-inline">
+        <button type="submit" name="action" value="keywords" class="btn btn-outline-primary">
+            <i class="bi bi-plus-lg"></i> {{ t('generate_keywords') }}
+        </button>
+        <button type="submit" name="action" value="titles" class="btn btn-outline-secondary ms-1">
+            <i class="bi bi-plus-lg"></i> {{ t('generate_titles') }}
+        </button>
+    </form>
+</div>
+
+<div class="row">
+    <!-- Keywords -->
+    <div class="col-md-6 animate-in animate-in-delay-1">
+        <h5 class="section-header"><i class="bi bi-tags"></i> {{ t('keywords') }} ({{ keywords|length }})</h5>
+        <div class="list-group" style="max-height: 500px; overflow-y: auto; border-radius: 12px;">
+            {% for kw in keywords %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ kw.text }}</span>
+                {% if kw.is_title_generated %}
+                <span class="badge bg-success">{{ t('used') }}</span>
+                {% else %}
+                <span class="badge bg-secondary">{{ t('unused') }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Blog Titles -->
+    <div class="col-md-6 animate-in animate-in-delay-2">
+        <h5 class="section-header"><i class="bi bi-card-heading"></i> {{ t('blog_titles') }} ({{ titles|length }})</h5>
+        <div class="list-group" style="max-height: 500px; overflow-y: auto; border-radius: 12px;">
+            {% for bt in titles %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ bt.content[:80] }}</span>
+                {% if bt.is_article_generated %}
+                <span class="badge bg-success">{{ t('generated') }}</span>
+                {% else %}
+                <span class="badge bg-warning">{{ t('pending') }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

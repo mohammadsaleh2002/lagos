@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ t('projects') }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ t('projects') }}</h2>
+    <a href="{{ url_for('projects.create') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> {{ t('new_project') }}
+    </a>
+</div>
+
+{% if projects %}
+<div class="row">
+    {% for p in projects %}
+    <div class="col-md-6 col-lg-4 mb-3 animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title" style="font-weight:600;">{{ p.name }}</h5>
+                <p class="text-muted mb-1" style="font-size:0.9rem;">{{ p.company_name }}</p>
+                <p class="text-muted small mb-2">{{ p.business_field }}</p>
+                <div class="d-flex gap-1 flex-wrap">
+                    <span class="badge bg-secondary">{{ p.lang }}</span>
+                    {% if p.wordpress and p.wordpress.url %}
+                    <span class="badge bg-info">{{ t('wp_connected') }}</span>
+                    {% endif %}
+                    {% if p.schedule and p.schedule.publish_enabled %}
+                    <span class="badge bg-success">{{ t('auto_publish') }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <a href="{{ url_for('content.articles', project_id=p._id) }}" class="btn btn-sm btn-outline-primary flex-grow-1">
+                    <i class="bi bi-file-text"></i> {{ t('content') }}
+                </a>
+                <a href="{{ url_for('projects.edit', project_id=p._id) }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <form method="POST" action="{{ url_for('projects.delete', project_id=p._id) }}"
+                      onsubmit="return confirm('{{ t('delete_project_confirm') }}')">
+                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state animate-in">
+    <div class="empty-icon"><i class="bi bi-folder-plus"></i></div>
+    <p>{{ t('no_projects_yet') }}</p>
+    <a href="{{ url_for('projects.create') }}" class="btn btn-primary">{{ t('create_first_project') }}</a>
+</div>
+{% endif %}
+{% endblock %}

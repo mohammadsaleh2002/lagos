@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ t('new_project') }}{% endblock %}
+{% block content %}
+<h2 class="mb-4 animate-in">{{ t('create_project') }}</h2>
+<div class="card animate-in animate-in-delay-1">
+    <div class="card-body">
+        <form method="POST">
+            {% include "projects/_form.html" %}
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> {{ t('create_project') }}</button>
+                <a href="{{ url_for('projects.list_projects') }}" class="btn btn-outline-secondary">{{ t('cancel') }}</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

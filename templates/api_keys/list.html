@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}{{ t('api_keys') }}{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ t('api_keys') }}</h2>
+
+<!-- Add Key Form -->
+<div class="card mb-4 animate-in">
+    <div class="card-body">
+        <h5 class="section-header" style="margin-top:0;"><i class="bi bi-plus-circle"></i> {{ t('add_new_api_key') }}</h5>
+        <form method="POST" action="{{ url_for('api_keys.add_key') }}" class="row g-3">
+            <div class="col-md-3">
+                <select name="provider" class="form-select" required>
+                    <option value="">{{ t('select_provider') }}</option>
+                    {% for p in providers %}
+                    <option value="{{ p }}">{{ p|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="name" class="form-control" placeholder="{{ t('key_name') }}">
+            </div>
+            <div class="col-md-4">
+                <input type="password" name="api_key" class="form-control" placeholder="{{ t('api_key') }}" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-plus-lg"></i> {{ t('add') }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Keys List -->
+{% if keys %}
+<div class="animate-in animate-in-delay-2">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{ t('provider') }}</th>
+                    <th>{{ t('name') }}</th>
+                    <th>{{ t('key') }}</th>
+                    <th>{{ t('status') }}</th>
+                    <th>{{ t('uses') }}</th>
+                    <th>{{ t('errors') }}</th>
+                    <th>{{ t('last_used') }}</th>
+                    <th>{{ t('actions') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for k in keys %}
+            <tr>
+                <td><span class="badge bg-{{ 'success' if k.provider == 'gemini' else 'primary' if k.provider == 'openai' else 'warning' }}">{{ k.provider }}</span></td>
+                <td>{{ k.name }}</td>
+                <td><code>{{ k.key_masked }}</code></td>
+                <td>
+                    {% if k.is_active %}
+                    <span class="badge bg-success">{{ t('active') }}</span>
+                    {% else %}
+                    <span class="badge bg-danger">{{ t('disabled') }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ k.usage_count }}</td>
+                <td>
+                    {% if k.error_count > 0 %}
+                    <span class="text-danger">{{ k.error_count }}</span>
+                    {% else %}
+                    0
+                    {% endif %}
+                </td>
+                <td>{{ k.last_used_at.strftime('%Y-%m-%d %H:%M') if k.last_used_at else '-' }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('api_keys.toggle', key_id=k._id) }}" class="d-inline">
+                        <button class="btn btn-sm btn-outline-{{ 'warning' if k.is_active else 'success' }}">
+                            {{ t('disable') if k.is_active else t('enable') }}
+                        </button>
+                    </form>
+                    {% if k.error_count > 0 %}
+                    <form method="POST" action="{{ url_for('api_keys.reset_errors', key_id=k._id) }}" class="d-inline">
+                        <button class="btn btn-sm btn-outline-info">{{ t('reset_errors') }}</button>
+                    </form>
+                    {% endif %}
+                    <form method="POST" action="{{ url_for('api_keys.delete', key_id=k._id) }}" class="d-inline"
+                          onsubmit="return confirm('{{ t('delete_key_confirm') }}')">
+                        <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="empty-state animate-in">
+    <div class="empty-icon"><i class="bi bi-key"></i></div>
+    <p>{{ t('no_keys_yet') }}</p>
+</div>
+{% endif %}
+{% endblock %}

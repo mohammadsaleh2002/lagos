@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}{{ article.article_title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 animate-in">
+    <div>
+        <a href="{{ url_for('content.articles', project_id=project._id) }}" class="text-muted" style="text-decoration:none;font-size:0.9rem;">
+            <i class="bi bi-arrow-left"></i> {{ t('back_to_articles') }}
+        </a>
+        <h2 class="mt-2">{{ article.article_title }}</h2>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="badge bg-secondary">{{ article.tag }}</span>
+            <code>{{ article.slug }}</code>
+            {% if article.is_published %}
+            <span class="badge bg-success">{{ t('published') }}</span>
+            {% if article.wp_post_url %}
+            <a href="{{ article.wp_post_url }}" target="_blank" class="btn btn-sm btn-outline-info">
+                <i class="bi bi-box-arrow-up-right"></i> {{ t('view_on_wp') }}
+            </a>
+            {% endif %}
+            {% else %}
+            <span class="badge bg-warning">{{ t('unpublished') }}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% if not article.is_published %}
+    <form method="POST" action="{{ url_for('publishing.publish', project_id=project._id) }}">
+        <input type="hidden" name="article_id" value="{{ article._id }}">
+        <button class="btn btn-success"><i class="bi bi-upload"></i> {{ t('publish_now') }}</button>
+    </form>
+    {% endif %}
+</div>
+
+<!-- Chapters -->
+{% for chapter in article.chapters %}
+<div class="card mb-3 animate-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+    <div class="card-header">
+        <strong>{{ chapter.title }}</strong>
+    </div>
+    <div class="card-body" style="line-height:1.8;">
+        {{ chapter.content|safe }}
+    </div>
+</div>
+{% endfor %}
+
+<!-- FAQ -->
+{% if article.faq %}
+<div class="card mb-3 animate-in">
+    <div class="card-header"><strong><i class="bi bi-question-circle"></i> {{ t('faq') }}</strong></div>
+    <div class="card-body">{{ article.faq|safe }}</div>
+</div>
+{% endif %}
+
+<!-- Reference -->
+{% if article.reference %}
+<div class="card mb-3 animate-in">
+    <div class="card-header"><strong><i class="bi bi-link-45deg"></i> {{ t('references') }}</strong></div>
+    <div class="card-body">{{ article.reference|safe }}</div>
+</div>
+{% endif %}
+{% endblock %}

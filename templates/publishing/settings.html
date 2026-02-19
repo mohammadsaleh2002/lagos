@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ t('publishing_settings') }}{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ t('publishing_settings') }}</h2>
+
+<p class="text-muted" style="font-size:0.9rem;">{{ t('configure_in_project') }}</p>
+
+{% for p in projects %}
+<div class="card mb-3 animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
+    <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1" style="font-weight:600;">{{ p.name }}</h5>
+            <div class="d-flex gap-1 flex-wrap">
+                {% if p.schedule and p.schedule.creation_enabled %}
+                <span class="badge bg-success">{{ t('creation') }}: {{ t('every_min', n=p.schedule.creation_interval_minutes) }}</span>
+                {% else %}
+                <span class="badge bg-secondary">{{ t('creation') }}: {{ t('off') }}</span>
+                {% endif %}
+                {% if p.schedule and p.schedule.publish_enabled %}
+                <span class="badge bg-success">{{ t('publish') }}: {{ t('every_min', n=p.schedule.publish_interval_minutes) }}</span>
+                {% else %}
+                <span class="badge bg-secondary">{{ t('publish') }}: {{ t('off') }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <a href="{{ url_for('projects.edit', project_id=p._id) }}" class="btn btn-outline-primary">
+            <i class="bi bi-gear"></i> {{ t('edit_schedule') }}
+        </a>
+    </div>
+</div>
+{% endfor %}
+
+{% if jobs %}
+<div class="animate-in" style="animation-delay: 0.25s;">
+    <h5 class="section-header mt-4"><i class="bi bi-clock-history"></i> {{ t('running_jobs') }}</h5>
+    <table class="table">
+        <thead><tr><th>{{ t('job_id') }}</th><th>{{ t('next_run') }}</th><th>{{ t('interval') }}</th></tr></thead>
+        <tbody>
+        {% for j in jobs %}
+        <tr>
+            <td><code>{{ j.id }}</code></td>
+            <td>{{ j.next_run }}</td>
+            <td>{{ j.trigger }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

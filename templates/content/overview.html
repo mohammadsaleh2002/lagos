@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}{{ t('content_overview') }}{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ t('content_overview') }}</h2>
+
+{% if project_data %}
+<div class="row">
+{% for pd in project_data %}
+<div class="col-md-6 mb-4 animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0" style="font-weight:600;">{{ pd.project.name }}</h5>
+            <a href="{{ url_for('content.articles', project_id=pd.project._id) }}" class="btn btn-sm btn-outline-primary">
+                {{ t('view_articles') }}
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="row g-2 text-center">
+                <div class="col-4">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">{{ t('keywords') }}</div>
+                        <div class="mini-stat-value">{{ pd.keywords }}</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">{{ t('titles') }}</div>
+                        <div class="mini-stat-value">{{ pd.blog_titles }}</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">{{ t('articles') }}</div>
+                        <div class="mini-stat-value">{{ pd.articles_total }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-2 text-center mt-1">
+                <div class="col-3">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">{{ t('published') }}</div>
+                        <div class="mini-stat-value" style="color:#38ef7d;">{{ pd.articles_published }}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">{{ t('bein_paragraphs') }}</div>
+                        <div class="mini-stat-value">{{ pd.bein_paragraphs }}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">{{ t('info_blocks') }}</div>
+                        <div class="mini-stat-value">{{ pd.info_blocks }}</div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">{{ t('bullet_items') }}</div>
+                        <div class="mini-stat-value">{{ pd.bullet_items }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate buttons -->
+            <div class="mt-3 d-flex flex-wrap gap-1">
+                <form method="POST" action="{{ url_for('content.generate', project_id=pd.project._id) }}" class="d-inline">
+                    <div class="btn-group" role="group">
+                        <button type="submit" name="action" value="keywords" class="btn btn-sm btn-outline-secondary">{{ t('generate_keywords') }}</button>
+                        <button type="submit" name="action" value="titles" class="btn btn-sm btn-outline-secondary">{{ t('generate_titles') }}</button>
+                        <button type="submit" name="action" value="article" class="btn btn-sm btn-outline-secondary">{{ t('generate_article') }}</button>
+                        <button type="submit" name="action" value="supplementary" class="btn btn-sm btn-outline-secondary">{{ t('generate_supplementary') }}</button>
+                        <button type="submit" name="action" value="full" class="btn btn-sm btn-outline-primary">{{ t('full_pipeline') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<div class="empty-state animate-in">
+    <div class="empty-icon"><i class="bi bi-file-earmark-plus"></i></div>
+    <p>{{ t('no_projects_create') }}</p>
+    <a href="{{ url_for('projects.create') }}" class="btn btn-primary">{{ t('create_project') }}</a>
+</div>
+{% endif %}
+{% endblock %}

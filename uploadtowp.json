@@ -1,0 +1,1292 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -2128
+      ],
+      "id": "5d0383cb-3c41-4cb5-a16d-df9ee03f0ac5",
+      "name": "Execute a SQL query25",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -1744
+      ],
+      "id": "e228f77b-e996-4a5a-a87e-58de114d56d0",
+      "name": "Execute a SQL query26",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -1360
+      ],
+      "id": "76839cb2-a40b-41c9-b3da-e9dd7071720d",
+      "name": "Execute a SQL query27",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -976
+      ],
+      "id": "021da513-c8af-4bb5-bffc-d3139b175ce0",
+      "name": "Execute a SQL query28",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -592
+      ],
+      "id": "47910939-4340-4bce-a9d4-050eec426a29",
+      "name": "Execute a SQL query29",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -208
+      ],
+      "id": "f14ed10b-d56f-40e2-b48b-9e5ad70ebbc9",
+      "name": "Execute a SQL query30",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -3280
+      ],
+      "id": "18406729-b139-4fe9-be98-fff036f018ed",
+      "name": "Execute a SQL query31",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -2896
+      ],
+      "id": "5e014eb0-754c-4597-b559-f1a9ebf5b626",
+      "name": "Execute a SQL query33",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        192
+      ],
+      "id": "92d546b3-6114-4fa3-8edf-35f3543b0cf5",
+      "name": "Execute a SQL query35",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -2896
+      ],
+      "id": "f99f3ba9-7907-40da-a904-5b0a8036b632",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -2512
+      ],
+      "id": "a5d10db7-f1b7-4e49-8aee-d9f8d422f936",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -2128
+      ],
+      "id": "8086d270-9c27-4aa0-b60b-b66291829284",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -1744
+      ],
+      "id": "bf32f107-156c-4537-962a-aa936ed72166",
+      "name": "Merge4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -208
+      ],
+      "id": "82d2adb1-e3d7-443b-a0cf-915b7a2dfa22",
+      "name": "Merge5"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        192
+      ],
+      "id": "8fabcec3-e643-4c0b-b9cd-36694196970f",
+      "name": "Merge6"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -592
+      ],
+      "id": "cb627614-1fc3-4399-820d-77f023914dd1",
+      "name": "Merge7"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -976
+      ],
+      "id": "a6bbac54-fa5f-4c77-9796-167b9d6c61a5",
+      "name": "Merge8"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        -1360
+      ],
+      "id": "1ede51dd-913f-448e-ad14-1f34b6ebeccb",
+      "name": "Merge9"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select * from {{ $json.db_name }}.contents\n  where is_published = 0 \n  order by rand()\nLIMIT 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        448,
+        -1744
+      ],
+      "id": "67f6b1b3-b0d2-47ff-9428-b202d9885732",
+      "name": "content",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select * from {{ $('Select rows from a table3').item.json.db_name }}.bein_paragraph\nORDER by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        672,
+        -1744
+      ],
+      "id": "1e602a2f-11bf-431e-9691-afc6e8635777",
+      "name": "bein 1",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select * from {{ $('Select rows from a table3').item.json.db_name }}.bein_paragraph\nORDER by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        896,
+        -1744
+      ],
+      "id": "cd650b45-5eb6-4100-8017-79f18f5fa29f",
+      "name": "bein 2",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select * from {{ $('Select rows from a table3').item.json.db_name }}.bein_paragraph\nORDER by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1120,
+        -1744
+      ],
+      "id": "00efcc87-b237-442b-8185-1e39848a46bb",
+      "name": "bein 3",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select * from {{ $('Select rows from a table3').item.json.db_name }}.bullet\nORDER by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1568,
+        -1744
+      ],
+      "id": "c635f7fe-72a8-47a9-922a-d5ddbf195cf4",
+      "name": "0bullet",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select * from {{ $('Select rows from a table3').item.json.db_name }}.info\nORDER by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1344,
+        -1744
+      ],
+      "id": "7a3e7798-e347-4faa-ab3d-9a6ddbd402d7",
+      "name": "0info",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "business_information.information",
+          "mode": "name"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "=id",
+              "value": "25"
+            }
+          ]
+        },
+        "combineConditions": "OR",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        224,
+        -1744
+      ],
+      "id": "770536b1-bca5-46a2-93e1-78e06cea2a96",
+      "name": "Select rows from a table3",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -16,
+        -1744
+      ],
+      "id": "6355c5b7-d6bb-408d-8895-43bd69ebf4a6",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select site_link from tehran_lux.link_image \nwhere tag = '{{ $('content').item.json.tag }}'\norder by rand()\n  limit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2864,
+        -2512
+      ],
+      "id": "b546f55b-984e-4709-9cda-bc07e298b29f",
+      "name": "Execute a SQL query34",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "title": "={{ $('content').item.json.article_title }}",
+        "additionalFields": {
+          "content": "={{ $json.message }}",
+          "slug": "={{ $('content').item.json.slug }}",
+          "status": "publish",
+          "pingStatus": "open",
+          "categories": [
+            1969
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        7184,
+        -1232
+      ],
+      "id": "0acddfc9-0e2b-4a10-b57d-fe97b80130a4",
+      "name": "Create a post",
+      "credentials": {
+        "wordpressApi": {
+          "id": "Yrh91325D40sjApu",
+          "name": "tehran lux"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select color from variable.colors\norder by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        5184,
+        -1104
+      ],
+      "id": "a29e1dfe-033c-44bb-b46e-75343517e30e",
+      "name": "color ",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select color from variable.colors\norder by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        5408,
+        -1104
+      ],
+      "id": "de75e34d-cfa9-4f51-8a41-31d786e6159d",
+      "name": "color 6",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select color from variable.colors\norder by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        5632,
+        -1104
+      ],
+      "id": "e9247cd0-98c0-4f90-b98b-01b1fface150",
+      "name": "color 7",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select color from variable.colors\norder by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        5856,
+        -1104
+      ],
+      "id": "db93f7c6-e5b3-41a0-929c-42ba780b453e",
+      "name": "color 8",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select color from variable.colors\norder by rand()\nlimit 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        6080,
+        -1104
+      ],
+      "id": "db1c4a0c-da63-4172-892f-1552fd3035c4",
+      "name": "color 9",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update {{ $('Select rows from a table3').item.json.db_name }}.contents\nset is_published = 1\nwhere id ={{ $('content').item.json.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        7648,
+        -1184
+      ],
+      "id": "b512b993-ecc7-4df8-a577-49206214a0c6",
+      "name": "Execute a SQL query8",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4256,
+        -3232
+      ],
+      "id": "9e30ee41-bac1-4a75-8b20-b5a1a266cdb0",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "-1003190074415",
+        "binaryData": true,
+        "additionalFields": {
+          "caption": "={{ $('Create a post').item.json.title.rendered }}\n\n{{ $('Create a post').item.json.yoast_head_json.og_description }}\n{{ $('Create a post').item.json.link }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        8192,
+        -1184
+      ],
+      "id": "e4314012-ae8d-4b3c-adf1-8c60b05a5bea",
+      "name": "Send a photo message",
+      "webhookId": "b9e825ed-81f5-46f9-aa0f-54b2627f5756",
+      "credentials": {
+        "telegramApi": {
+          "id": "M724cyi0zhCtfOFa",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Merge5').item.json.link9 }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        7952,
+        -1184
+      ],
+      "id": "e5af1552-7644-4382-8fe8-d70186d7a053",
+      "name": "HTTP Request18"
+    },
+    {
+      "parameters": {
+        "url": "=https://tluxe.ir/wp-json/wp/v2/media?search={{ $json.filename }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5040,
+        -304
+      ],
+      "id": "c2a5d050-5ae7-4ff0-9d88-82696b8f9440",
+      "name": "HTTP Request11",
+      "executeOnce": true,
+      "credentials": {
+        "wordpressApi": {
+          "id": "Yrh91325D40sjApu",
+          "name": "tehran lux"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const url = $('Merge7').first().json.site_link;\n\nconst filename = url.split('/').pop();\n\nreturn [\n  {\n    json: {\n      filename\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4816,
+        -304
+      ],
+      "id": "335d08c2-47f8-4200-a7b4-30fceb6d97e2",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        5264,
+        -304
+      ],
+      "id": "d8f13163-eb44-454e-8485-6974490769c3",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://tluxe.ir/wp-json/wp/v2/posts/{{ $('Create a post').item.json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "featured_media",
+              "value": "={{ $('HTTP Request11').item.json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        7440,
+        -1296
+      ],
+      "id": "e62fd9e8-5723-4bb0-83a9-9d41179a0bde",
+      "name": "HTTP Request17",
+      "credentials": {
+        "wordpressApi": {
+          "id": "Yrh91325D40sjApu",
+          "name": "tehran lux"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f35c0365-ed5f-447f-9dad-991324791a02",
+              "name": "content",
+              "value": "=<h2 style=\"color:{{ $json.color }}\">{{ $('content').item.json.chapter1_title }}</h2> <img class= \"center_image\" src = \"{{ $('Merge').item.json.site_link }}\"> {{ $('content').item.json.paragraph1 }}     <h3 style=\"color:{{ $('color 6').item.json.color }}\">{{ $('content').item.json.chapter2_title }}</h3> <img class= \"center_image\" src = \"{{ $('Merge1').item.json.site_link }}\"> <mark>{{ $('content').item.json.paragraph2 }}</mark> <blockquote>{{ $('bein 1').item.json.text }}</blockquote>   <h2 style=\"color:{{ $('color 7').item.json.color }}\">{{ $('content').item.json.chapter3_title }}</h2> <img class= \"center_image\" src = \"{{ $('Merge2').item.json.site_link }}\"> {{ $('content').item.json.paragraph3 }}     <h3 style=\"color:{{ $('color 8').item.json.color }}\">{{ $('content').item.json.chapter4_title }}</h3> <img class= \"center_image\" src = \"{{ $('Merge3').item.json.site_link }}\"> {{ $('content').item.json.paragraph4 }}     <h2 style=\"color:{{ $('color 9').item.json.color }}\">{{ $('content').item.json.chapter5_title }}</h2> <img class= \"center_image\" src = \"{{ $('Merge4').item.json.site_link }}\"> {{ $('content').item.json.paragraph5 }} <blockquote>{{ $('bein 2').item.json.text }}</blockquote>    <h4 style=\"color:{{ $('color ').item.json.color }}\">{{ $('content').item.json.chapter6_title }}</h4> <img class= \"center_image\" src = \"{{ $('Merge9').item.json.site_link }}\"> {{ $('content').item.json.paragraph6 }}    <h3 style=\"color:{{ $('color 6').item.json.color }}\">{{ $('content').item.json.chapter7_title }}</h3> <img class= \"center_image\" src = \"{{ $('Merge8').item.json.site_link }}\"> <i>{{ $('content').item.json.paragraph7 }}</i>     <h2 style=\"color:{{ $('color 7').item.json.color }}\">{{ $('content').item.json.chapter8_title }}</h2> <img class= \"center_image\" src = \"{{ $('Merge7').item.json.site_link }}\"\"> <mark style= \"background-color : {{ $json.color }}\">{{ $('content').item.json.paragraph8 }}</mark>    <h3 style=\"color:{{ $('color 8').item.json.color }}\">{{ $('content').item.json.chapter9_title }}</h3> <img class= \"center_image\" src =\"{{ $('Merge5').item.json.site_link }}\"> {{ $('content').item.json.paragraph9 }} <blockquote>{{ $('bein 3').item.json.text }}</blockquote>   <h3 style=\"color:{{ $('color 9').item.json.color }}\">{{ $('content').item.json.chapter10_title }}</h3> <img class= \"center_image\" src =\"{{ $('Merge6').item.json.site_link }}\"\"> {{ $('content').item.json.paragraph10 }}    {{ $('content').item.json.faq }}  <strong>{{ $('0bullet').item.json.text }}</strong>  {{ $('0info').item.json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6288,
+        -1104
+      ],
+      "id": "14d80418-0620-4829-bd4c-a61f39943144",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:6000/gemini",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "=این متن رو بررسی کن و اگه چیزی به سایت idiads.com\nلینک شده بود اونو پاک کن\n{{ $json.content }}\n\n\nنکته مهم:\nهیچ جیز اضفی ننویس\nاگه لینک وجود نداشت همون متن رو بنویس"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6752,
+        -1168
+      ],
+      "id": "e9abde2b-767c-43b7-a959-e93554a975f4",
+      "name": "HTTP Request19"
+    }
+  ],
+  "connections": {
+    "Execute a SQL query25": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query26": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query27": {
+      "main": [
+        [
+          {
+            "node": "Merge9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query28": {
+      "main": [
+        [
+          {
+            "node": "Merge8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query29": {
+      "main": [
+        [
+          {
+            "node": "Merge7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query30": {
+      "main": [
+        [
+          {
+            "node": "Merge5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query31": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query33": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query35": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query34",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query25",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query26",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge4": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query27",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge5": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query35",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge6": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge7": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query30",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge8": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query29",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge9": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query28",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "content": {
+      "main": [
+        [
+          {
+            "node": "bein 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bein 1": {
+      "main": [
+        [
+          {
+            "node": "bein 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bein 2": {
+      "main": [
+        [
+          {
+            "node": "bein 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bein 3": {
+      "main": [
+        [
+          {
+            "node": "0info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "0bullet": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query31",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "0info": {
+      "main": [
+        [
+          {
+            "node": "0bullet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table3": {
+      "main": [
+        [
+          {
+            "node": "content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query34": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "color ": {
+      "main": [
+        [
+          {
+            "node": "color 6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "color 6": {
+      "main": [
+        [
+          {
+            "node": "color 7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "color 7": {
+      "main": [
+        [
+          {
+            "node": "color 8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "color 8": {
+      "main": [
+        [
+          {
+            "node": "color 9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "color 9": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query8": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query33",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request18": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request11": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "color ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request17": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request19": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a6018e680d2676b1dd3e2b0de2b7daf87d5e187918790b5000014a9022d800ac"
+  }
+}

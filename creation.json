@@ -1,0 +1,2519 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "45e0ae73-51a7-44f5-bf8f-00958b8b5ec7",
+              "name": "project_key",
+              "value": "={{ $json.db_name }}",
+              "type": "string"
+            },
+            {
+              "id": "63cfd72a-e396-4d9d-ad94-82b8e0fdd0eb",
+              "name": "total_articles",
+              "value": "={{ $json.number_of_content }}",
+              "type": "number"
+            },
+            {
+              "id": "01c1f4e2-d9c2-47c0-bb07-3fa08d092763",
+              "name": "total_days",
+              "value": "={{ $json.days }}",
+              "type": "number"
+            },
+            {
+              "id": "86d19dd3-f132-4d0f-966e-838ed86a2bbd",
+              "name": "total_keywords",
+              "value": "={{ $json.number_of_keyword }}",
+              "type": "number"
+            },
+            {
+              "id": "67dc7c26-eb62-475a-8682-759b86e0d5f2",
+              "name": "total_ads",
+              "value": "={{ $json.number_of_ads }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1680,
+        -5200
+      ],
+      "id": "c2097f46-fef6-4a21-95d4-6712fe1fe07c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/process",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $json.project_key }}"
+            },
+            {
+              "name": "total_articles",
+              "value": "={{ $json.total_articles }}"
+            },
+            {
+              "name": "total_days",
+              "value": "={{ $json.total_days }}"
+            },
+            {
+              "name": "total_keywords",
+              "value": "={{ $json.total_keywords }}"
+            },
+            {
+              "name": "total_ads",
+              "value": "={{ $json.total_ads }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1456,
+        -5200
+      ],
+      "id": "e7dc4986-1adf-4cb5-8413-9b4918aed5e7",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "article"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        -5296
+      ],
+      "id": "a1b2edb3-e911-4e6d-85b1-96a701cbdc01",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2128,
+        -5200
+      ],
+      "id": "d1f24675-7cad-4c80-aefb-4e940383a8ac",
+      "name": "Schedule Trigger",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "bein_paragraph"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        -4800
+      ],
+      "id": "62055d89-479d-41ce-a022-d05bf8c9415e",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "info"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        -4400
+      ],
+      "id": "37a8a706-8f3d-4980-b650-277122708bfe",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "business_information.information",
+          "mode": "name"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "=id",
+              "value": "25"
+            }
+          ]
+        },
+        "combineConditions": "OR",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -1904,
+        -5200
+      ],
+      "id": "02b5840f-9d76-47e9-839b-0affb7088b6f",
+      "name": "Select rows from a table1",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "bullet"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        -4000
+      ],
+      "id": "f209b926-75d2-4f67-a494-fadb53cb9687",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "keyword"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        -6752
+      ],
+      "id": "96b6be7d-f772-479e-81a4-712bfc5bcbb4",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        816,
+        -6128
+      ],
+      "id": "4d26f777-0f0a-466d-8d77-50d9da616ba1",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_keyword_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -6624
+      ],
+      "id": "ea6e7c7f-80da-43f3-8a1b-a204690678f2",
+      "name": "کلمه کلیدی"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_title_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -6128
+      ],
+      "id": "677a1a31-a82c-4da0-82eb-c34e38b2c710",
+      "name": "عنوان"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_article_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -5296
+      ],
+      "id": "b282e2bb-2e01-42c1-a65c-e07dc54f418f",
+      "name": "مقاله"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_bein_paragraph_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -4800
+      ],
+      "id": "81256b6f-c381-473d-b565-1ac054070df2",
+      "name": "بین پاراگرافی"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_info_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -4400
+      ],
+      "id": "4cbea073-4c48-475d-9974-15b5f74085e5",
+      "name": "اینفو"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_bullet_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -4000
+      ],
+      "id": "e47f0769-897a-48d4-9a16-caf307ada19a",
+      "name": "بولت"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputText = $input.first().json.output; \n\nconst chunks = inputText.split('==============');\n\n\nreturn chunks\n  .filter(chunk => chunk.trim() !== '') \n  .map(chunk => {\n    return {\n      json: {\n        data: chunk.trim()\n      }\n    };\n  });"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        -6752
+      ],
+      "id": "addf9d50-c1d7-4454-98fb-c201d1ac80ce",
+      "name": "bullet1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.keyword(text, is_generate) values\n('{{ $json.data }}',0);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -80,
+        -6752
+      ],
+      "id": "1bb0d41e-adf0-433f-80fc-5d2ccc4dcd06",
+      "name": "Execute a SQL query12",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM {{ $('Select rows from a table1').item.json.db_name }}.keyword\nORDER by rand()\n  LIMIT 1;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -944,
+        -6128
+      ],
+      "id": "22d3bc96-382f-4dca-b8ee-3553332b9176",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert SEO content strategist specialized in generating high-converting article titles.\n\nBusiness Information:\nBrand Name: {{ $('Select rows from a table1').item.json.company_name }}\nMain Products or Services: {{ $('Select rows from a table1').item.json.services_products }}\nBusiness Field: {{ $('Select rows from a table1').item.json.business_field }}\nGenerate titles based on this information.\nYour task is to produce two categories of fully SEO-optimized and highly engaging titles in Persian:\n1. {{ $('Select rows from a table1').item.json.number_of_content * 1.2 / $('Select rows from a table1').item.json.number_of_keyword }} content titles (Blog Titles)\n2. {{ $('Select rows from a table1').item.json.number_of_ads * 1.2 / $('Select rows from a table1').item.json.number_of_keyword }} advertising titles (Advertising Titles)\nFollow these rules precisely:\n- Keyword Usage: The main keyword, provided below, must appear exactly once in each title, preferably near the beginning or middle, without grammatical distortion.\n- Length: Each title must be between 55 and 65 characters in length.\n- Consistency & Quality: All titles must be stylistically consistent, professional, and targeted towards Persian-speaking audiences in a formal yet engaging tone.\n- SEO Optimization:\n  - Include intent-driven phrasing for informational, transactional, and navigational searches.\n  - Use natural language that aligns with how Persian users search on Google.\n  - Reflect expertise, authority, and trustworthiness (E-E-A-T principles).\n  - Ensure titles are click-worthy and optimized for CTR.\n- Topic Variety: Cover multiple content types: educational guides, news insights, analysis, listicles, comparisons, buyer’s guides, tips & tricks, and problem-solution formats.\n- Avoid:\n  - Duplicate structures or repetitive phrasing.\n  - Unclear, generic, or overly short titles.\n  - Mixing advertising and blog title tone (keep each category’s style consistent).\nOutput Format: Provide ONLY valid JSON with the following structure:\n- The output should be provided in two JSON sections:\n    - The first section: blog content inside the `blog` JSON field.\n    - The second section: advertising content inside the `ads` JSON field.\n\nwrite in {{ $('Select rows from a table1').item.json.lang }}\nKeyword: {{ $('Execute a SQL query').item.json.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant\nچیز اضافی نگ فقط عناوین را بنویس\nمتن ها را همینوطری زیر هم بزار و از \"\" و , داخلش استفاده نکن"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -656,
+        -6240
+      ],
+      "id": "3c98b004-f23c-4af1-9d9d-5c96d130c42c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        -6000
+      ],
+      "id": "63339c3c-700e-423c-9024-b4e5d0d95b52",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "UD0YhPZsKY6ujEOh",
+          "name": "3a api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the multiline text from the 'output' field of the first item\nconst inputText = $input.first().json.output.blog;\n\n// Split the text into an array of lines\nconst lines = inputText.split('\\n');\n\n// Use the .map() function to transform each line into a new n8n item.\n// n8n will then create a separate output for each item in the returned array.\nreturn lines.map(line => {\n  return {\n    json: {\n      data: line\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        -6192
+      ],
+      "id": "168bf6c0-ddd4-4020-97af-4b8d046f8a9b",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.blog_title(content, sarshakhe, is_generate) VALUES\n('{{ $json.data }}','{{ $('Execute a SQL query').item.json.text }}',0);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -80,
+        -6192
+      ],
+      "id": "e15aa4f8-33d0-433a-a7b1-054440550f5a",
+      "name": "Execute a SQL query1",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"blog\": \"string\",\n    \"ads\" : \"string\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -528,
+        -6000
+      ],
+      "id": "7efdf870-193e-42fb-81ee-30dba946972e",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SET SQL_SAFE_UPDATES = 0;\ndelete from {{ $('Select rows from a table1').item.json.db_name }}.blog_title\nwhere content = '';\ndelete from {{ $('Select rows from a table1').item.json.db_name }}.ads_title\nwhere content = '';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        160,
+        -6128
+      ],
+      "id": "62330ab3-6626-4a38-879f-91bea74ee871",
+      "name": "Execute a SQL query3",
+      "executeOnce": true,
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM {{ $('Select rows from a table1').item.json.db_name }}.blog_title\nwhere is_generate = 0\nORDER BY rand()\nLIMIT 1;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -944,
+        -5296
+      ],
+      "id": "6aa8ddc1-000f-46c5-9244-a212ef692a46",
+      "name": "Execute a SQL query20",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "use {{ $('Select rows from a table1').item.json.db_name }};\nINSERT INTO contents (\n  article_title,\n  chapter1_title, chapter2_title, chapter3_title, chapter4_title, chapter5_title, chapter6_title, chapter7_title,chapter8_title,chapter9_title,chapter10_title,\n  paragraph1, paragraph2, paragraph3, paragraph4, paragraph5, paragraph6, paragraph7,paragraph8,paragraph9,paragraph10,\n  tag , faq , reference,slug,is_published\n) VALUES (\n  '{{ $('title , word_count , chapters').item.json.title }}',\n  '{{ $json.chapters[0].title }}',\n  '{{ $json.chapters[1].title }}',\n  '{{ $json.chapters[2].title }}',\n  '{{ $json.chapters[3].title }}',\n  '{{ $json.chapters[4].title }}',\n  '{{ $json.chapters[5].title }}',\n  '{{ $json.chapters[6].title }}',\n  '{{ $json.chapters[7].title }}',\n  '{{ $json.chapters[8].title }}',\n  '{{ $json.chapters[9].title }}',\n  '{{ $json.chapters[0].content }}',\n  '{{ $json.chapters[1].content }}',\n  '{{ $json.chapters[2].content }}',\n  '{{ $json.chapters[3].content }}',\n  '{{ $json.chapters[4].content }}',\n  '{{ $json.chapters[5].content }}',\n  '{{ $json.chapters[6].content }}',\n  '{{ $json.chapters[7].content }}',\n  '{{ $json.chapters[8].content }}',\n  '{{ $json.chapters[9].content }}',\n  '{{ $('Execute a SQL query20').item.json.sarshakhe }}',\n  '{{ $('HTTP Request7').item.json.faq }}',\n  '{{ $json.refrence }}',\n  '{{ $('HTTP Request7').item.json.slug }}',\n  0\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -80,
+        -5296
+      ],
+      "id": "7b7c1f3c-df9e-4acd-9c64-c56212f4f544",
+      "name": "Execute a SQL query14",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const title = $('Execute a SQL query20').first().json.content;\nconst word_count = 3500;\nconst chapters = 10;\nreturn{\n  \"title\":title,\n  \"chapters\":chapters,\n  \"word_count\":word_count\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        -5296
+      ],
+      "id": "75107a1b-4447-4a49-a0f1-6be56ff9e3b3",
+      "name": "title , word_count , chapters"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update {{ $('Select rows from a table1').item.json.db_name }}.blog_title\nset is_generate = 1\nwhere id = {{ $('Execute a SQL query20').item.json.id }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        160,
+        -5296
+      ],
+      "id": "53989a27-95aa-496e-883a-d90be9b5ef6b",
+      "name": "Execute a SQL query15",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "\nSET SQL_SAFE_UPDATES = 0;\ndelete from {{ $('Select rows from a table1').item.json.db_name }}.contents\nwhere chapter1_title = 'undefined';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        384,
+        -5296
+      ],
+      "id": "ccc94d32-70de-4ffd-a020-4068e6cbe5ef",
+      "name": "Execute a SQL query6",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:6000/gemini-multi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "=system prompt:\nYou are a Senior Deep Learning Engineer specialized in generating fully human-like, SEO-optimized Persian articles that follow E-E-A-T and GEO SEO principles. \nYour outputs must be indistinguishable from human writing, with logical flow, verified facts, and emotional intelligence. \nEach article must demonstrate expertise, trustworthiness, and relevance to the business context provided. \nAvoid any generic AI tone, repetitions, or mechanical sentence structures.\n---\nuser prompt:\nWrite the title, the chapters details, and the content for an SEO-friendly, human-written article in Persian about these topics:\n{{ $('title , word_count , chapters').item.json.title }}\n- Title with one of the approaches: educational guides, news insights, analysis, listicles, comparisons, buyer's guides, tips & tricks.\n- Identify which approach fits this title and then write the article accordingly.\nاطلاعات کسب‌وکار:\nنام برند: {{ $('Select rows from a table1').item.json.company_name }}\nمحصولات یا خدمات اصلی: {{ $('Select rows from a table1').item.json.services_products }}\nحوزه کاری: {{ $('Select rows from a table1').item.json.business_field }}\n---\n### ✳️ Content Rules\n- Follow **E-E-A-T** principles (Experience, Expertise, Authority, Trustworthiness).\n- Optimize for **GEO SEO** based on the brand’s location or service area if mentioned.\n- The article must feel 100% human-written — avoid robotic or repetitive AI patterns.\n- The content must be deep, research-based, and verifiable via Google or Wikipedia.\n- Word count: {{ $('title , word_count , chapters').item.json.word_count }}\n- Use {{ $('Execute a SQL query20').item.json.sarshakhe }} keyword times naturally (keyword density < 2%).\n- Use synonyms where needed.\n- Use a few sentences and a few paragraphs within the text and use <br> tag in text.\n---\n### ✳️ Structure & Formatting\n- Create 10 chapters inside an array field called `chapters`.\n- Each chapter must have:\n  - `title` (in <h3> tag)\n  - `content` (in <p> tag)\n  - each chapter’s length ≈ {{ $('title , word_count , chapters').item.json.word_count / 10 }} words\n- Chapters must flow logically and not repeat concepts.\n- Add a relevant emoji at the start of each chapter title.\n- Do NOT use \"Chapter 1\", \"Chapter 2\", etc.\n- Don’t use colons (:) in titles.\n- Don’t use Markdown formatting.\n- Add 2 random HTML tables (with class \"my_table\") in random chapters (e.g., chapter 3 & 7). Center-align table contents.\n- Don’t use ‘Segoe UI’, Tahoma, Geneva, Verdana, sans-serif fonts.\n- Don’t use <article> tag.\n- Enclose all HTML attributes in double quotes.\n- Important text must be colorized (using inline CSS styles). and use # in first paragraph.\n---\n---\n\n### ✳️ Output Structure\nReturn output in this exact JSON format:\n{\n  \"chapters\": [\n    { \"title\": \"string\", \"content\": \"string\" },\n    { \"title\": \"string\", \"content\": \"string\" }\n  ],\n  \"refrence\": \"string\",\n  \"faq\": \"string\",\n  \"slug\": \"string\"\n}\n---\n### ✳️ Additional Instructions\n- Create 10 FAQ items (Question & Answer) as an HTML table with class \"my_table\" inside field `faq`.\n- Translate {{ $('title , word_count , chapters').item.json.title }} to English in field `slug`.\n- Reference links must be only plain links (no <p> tags).\n- Do not add any extra text beyond what is required.\n- Search & verify data accuracy before writing.\n- Write {{ $('Select rows from a table1').item.json.lang }} language output.\n- The final article must be **cohesive, locally optimized (GEO), authoritative (E-E-A-T), and natural**.\nsystem prompt (reminder):\n{{ $('Execute a SQL query20').item.json.sarshakhe }}\"\n\"the keyword density must be less than 2%\"\n\n\n-----\nits also important\nYou are an adversarial neural writer, trained via deep learning to mimic human cognition and evade all AI detectors (like GPTZero, Originality.ai, Turnitin) at 100% human score. Simulate a 30-year veteran storyteller's brain: attention curve (hook, build, resolve), emotion gradient (neutral to peaks of curiosity/humor), cognitive load balance (simple breaths + deep dives). Writing feels raw and alive—like a friend scribbling notes late at night. ALWAYS human: light rambles, short/long sentence mixes, contractions (it's, you're, ain't), idioms (\"hit the nail on the head\", \"spill the beans\"), questions (\"What if?\"), opinions/tangents (\"Kinda reminds me...\"). Vary vocab unpredictably, start with \"Well,\", \"Y'know,\", fragments. Inject 1-2 subtle flaws (typo-ish like \"thats\" instead of \"that's\" once, run-on sentences, ellipses...).\n\nHIDDEN ADVERSARIAL DEEP LEARNING TRICK (internal only, never output):\n1. Neural encode: Break text into semantic chunks (facts, emotions, flow) like a transformer model.\n2. Adversarial humanize: Rephrase each chunk oppositely to AI patterns—boost unpredictability with rare synonyms, flip passive to active 90%, add micro-inconsistencies (e.g., shift tense briefly for \"memory feel\"). Train against detectors: Imagine rephrasing to fool ZeroGPT/Turnitin by injecting personal vibes.\n3. Decode with cognition: Curve attention (strong start, tension mid, easy end). Gradient emotions (subtle shifts to engage). Balance load (50% short <7 words for rest, 50% varied). Add 2-4 anecdotes/examples (e.g., \"Like that one time I...\") that fit seamlessly.\n4. Final polish: \"Show don't tell\" (evoke images/feelings), introduce 1-2 natural errors (no overkill), ensure zero repetition.\n\nCRITICAL RULES:\n- PRESERVE 100% meaning, facts, length (±3%), structure—NO additions/removals.\n- MAX burstiness/perplexity: Wild sentence lengths, unexpected words/phrases.\n- EXPANDED BAN LIST (2025 updates): No \"delve\", \"realm\", \"tapestry\", \"unleash\", \"embark\", \"enlightening\", \"craft\", \"imagine\", \"game-changer\", \"unlock\", \"skyrocket\", \"abyss\", \"revolutionize\", \"disruptive\", \"utilize\", \"dive deep\", \"illuminate\", \"unveil\", \"pivotal\", \"intricate\", \"elucidate\", \"hence\", \"furthermore\", \"however\", \"harness\", \"exciting\", \"groundbreaking\", \"cutting-edge\", \"remarkable\", \"it remains to be seen\", \"glimpse into\", \"navigating\", \"landscape\", \"stark\", \"testament\", \"in summary\", \"in conclusion\", \"moreover\", \"boost\", \"opened up\", \"powerful\", \"inquiries\", \"ever-evolving\", \"elevate\", \"foster\", \"empower\", \"narrative\", \"symphony\", \"odyssey\", \"beacon\", \"catalyst\", \"epitome\", \"quintessential\", \"myriad\", \"plethora\", \"nuanced\", \"holistic\", \"synergy\", \"paradigm\", \"meticulously\", \"seamlessly\", \"profound\", \"resonate\". No em dashes, colons for lists, or perfect punctuation.\n- Sound like [tone: raw/casual/expert] for [audience]. Add light humor/surprise if fits.\n\n\nOutput must persian\nOutput ONLY rewritten text. NOTHING else—no intros, explanations."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -304,
+        -5296
+      ],
+      "id": "d516d0d5-8318-4499-bc02-ba15b2d95cb0",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\nI will give you a company’s information including:\nCompany Name = {{ $('Select rows from a table1').item.json.company_name }}\nMain field of activity and services = {{ $('Select rows from a table1').item.json.services_products }}\n\nNow, create a 2–3 sentence advertising text that:\n\nStarts with a question or engaging hook that sparks the customer’s curiosity.\n\nImmediately presents the solution or benefit of using the company’s services.\n\nLists 2 or 3 advantages in bullet points, each starting with a ✅ symbol.\n\nEnds with a short, exciting call-to-action sentence.\n\nHas a total length of 350 to 500 characters.\n\nMaintains a persuasive, formal, and promotional tone, and must include the company’s name in the text.\n\nExample:\nDid you know that your website is the first impression for most of your potential clients? With a powerful corporate website from {{ $('Select rows from a table1').item.json.company_name }}, you can multiply your business credibility!\n✅ Custom, visually stunning design tailored to your brand\n✅ Improved user experience and customer engagement\n⚡ Get a free consultation today!\n\nwrite in {{ $('Select rows from a table1').item.json.lang }}\nwrite 50 item and seprate each item with ==============\n\n\n\n",
+        "options": {
+          "systemMessage": "You are a helpful assistant\ndont use \" \" in content"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1008,
+        -4912
+      ],
+      "id": "dcf5a88e-90a6-4cf6-ab4b-422ad438c19e",
+      "name": "tolid bein"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -944,
+        -4688
+      ],
+      "id": "f7c53ba1-ab51-464e-9e88-34ee2fc30ea2",
+      "name": "Google Gemini Chat Model11",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "apvT2swnEVrMVqz1",
+          "name": "number273"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.bein_paragraph(text) values\n('{{ $json.data }}');\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -304,
+        -4800
+      ],
+      "id": "cd3660b1-2d88-4f75-9213-572beb7513ac",
+      "name": "Execute a SQL query16",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputText = $input.first().json.output; \n\nconst chunks = inputText.split('==============');\n\n\nreturn chunks\n  .filter(chunk => chunk.trim() !== '') \n  .map(chunk => {\n    return {\n      json: {\n        data: chunk.trim()\n      }\n    };\n  });"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        -4800
+      ],
+      "id": "f50c3eaa-73b1-42ec-aaa6-624841d4fb5e",
+      "name": "bein"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\nFor the company {{ $('Select rows from a table1').item.json.company_name }} that provides services business_information.information;, create 50 unique advertising and promotional texts.\nEach slogan must strictly follow the structure below:\n\nStart with a hook — an engaging question or a striking statement designed to instantly grab the customer’s attention.\n\nFollow with a concise, compelling description of one specific service or key benefit the company offers.\n\nThen, add exactly 1 check marks (✅), each followed by a short, impactful feature or advantage related to that service.\n\nEnsure maximum variety in word choice, style, and tone, so that none of the slogans feel repetitive.\n\nadd {{ $('Select rows from a table1').item.json.mobile_phone }}\nand {{ $('Select rows from a table1').item.json.phone }}\nand {{ $('Select rows from a table1').item.json.email }}\nand {{ $('Select rows from a table1').item.json.address }}\nlike \n✉️ <a href=\"mailto:info@idiads.com\">info@idiads.com</a><br>\n📱 <a href=\"tel:+989124438174\">09124438174</a><br>\n📱 <a href=\"tel:+989390858526\">09390858526</a><br>\n📞 <a href=\"tel:+982126406207\">02126406207</a><br>\nin html\n\nwrite in {{ $('Select rows from a table1').item.json.lang }}\nseprate each item with ==============\n\n\nreturn in json field `info`\n\n\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant\ndont use \" \" in content"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1008,
+        -4512
+      ],
+      "id": "12115e00-22bf-40fc-9822-ad661429df3e",
+      "name": "AI Agent5"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"info\": \"string\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -880,
+        -4288
+      ],
+      "id": "7002b0c5-7961-41d2-9c2b-f88086515623",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        -4288
+      ],
+      "id": "9cab7bbf-6dff-4045-87bd-1803d69c2bcf",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "apvT2swnEVrMVqz1",
+          "name": "number273"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputText = $input.first().json.output.info; \n\nconst chunks = inputText.split('==============');\n\n\nreturn chunks\n  .filter(chunk => chunk.trim() !== '') \n  .map(chunk => {\n    return {\n      json: {\n        data: chunk.trim()\n      }\n    };\n  });"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        -4400
+      ],
+      "id": "9da62fac-8708-4cad-8d8c-ec59920a019a",
+      "name": "info"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.info(text) VALUES\n('{{ $json.data }}');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -304,
+        -4400
+      ],
+      "id": "80ef0c45-c439-4a16-95ff-fbbfa31e6c97",
+      "name": "Execute a SQL query32",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.bullet(text) VALUES\n('{{ $json.data }}');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -304,
+        -4000
+      ],
+      "id": "a9c9fb6b-3101-4d45-8c6d-d40ea1fdc45c",
+      "name": "Execute a SQL query7",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputText = $input.first().json.output.bullet; \n\nconst chunks = inputText.split('==============');\n\n\nreturn chunks\n  .filter(chunk => chunk.trim() !== '') \n  .map(chunk => {\n    return {\n      json: {\n        data: chunk.trim()\n      }\n    };\n  });"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        -4000
+      ],
+      "id": "b7749cf1-0037-4416-a8c3-0b2e56bf434a",
+      "name": "bullet2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\nFor the company {{ $('Select rows from a table1').item.json.company_name }} whose services include {{ $('Select rows from a table1').item.json.services_products }}, produce a list of 250 different, realistic, and industry-relevant services.\n\nPrecede each entry with a bullet point (•) in every line.\n\nUse this exact format:\n\"\n{{ $('Select rows from a table1').item.json.bullet1 }}\n[Service Name 1]\n[Service Name 2]\n[Service Name 3]\n[Service Name 4]\n[Service Name 5]\n{{ $('Select rows from a table1').item.json.bullet2 }}\n{{ $('Select rows from a table1').item.json.bullet3 }}\n\"\n\nProvide only five new services per entry.\n\nDo not repeat any service in the entire list.\n\nAll services must be directly related to the company’s industry  {{ $('Select rows from a table1').item.json.business_field }}, {{ $('Select rows from a table1').item.json.services_products }} And according to the {{ $('Select rows from a table1').item.json.about_company }} and realistically offered in real markets.\n\nwrite in {{ $('Select rows from a table1').item.json.lang }}\n\nseprate each item with ==============\n\n\nreturn in json field `bullet`\n\n\n\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a helpful assistant\ndont use \" \" in content"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1008,
+        -4112
+      ],
+      "id": "c97bd0cd-f747-451e-818d-06885859be59",
+      "name": "AI Agent6"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"bullet\": \"string\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -880,
+        -3888
+      ],
+      "id": "ae83008c-7a0c-4dd1-870e-2646b32b88bd",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        -3888
+      ],
+      "id": "5b0bb453-4e69-45d5-87ca-782049defc8f",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "apvT2swnEVrMVqz1",
+          "name": "number273"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the multiline text from the 'output' field of the first item\nconst inputText = $input.first().json.output.ads;\n\n// Split the text into an array of lines\nconst lines = inputText.split('\\n');\n\n// Use the .map() function to transform each line into a new n8n item.\n// n8n will then create a separate output for each item in the returned array.\nreturn lines.map(line => {\n  return {\n    json: {\n      data: line\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        -6000
+      ],
+      "id": "3e83b04c-543b-4a22-9ec4-571ad3a751c7",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.ads_title(content, sarshakhe, is_generate) VALUES\n('{{ $json.data }}','{{ $('Execute a SQL query').item.json.text }}',0);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -80,
+        -6000
+      ],
+      "id": "9c8eec05-4f2f-475d-a537-d20ba2bfcdde",
+      "name": "Execute a SQL query9",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "ads"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        -5104
+      ],
+      "id": "c99df590-61d8-4418-8295-4a391d51292c",
+      "name": "HTTP Request8"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM {{ $('Select rows from a table1').item.json.db_name }}.ads_title\nwhere is_generate = 0\nORDER BY rand()\nLIMIT 1;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -944,
+        -5104
+      ],
+      "id": "8e1eb547-116d-497b-9adc-49f79ae5e2ad",
+      "name": "Execute a SQL query21",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "use {{ $('Select rows from a table1').item.json.db_name }};\nINSERT INTO ads_content (\n  title,text\n) VALUES (\n'{{ $('title , word_count , chapters1').item.json.title }}',\n  '{{ $json.message }}'\n);\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -80,
+        -5104
+      ],
+      "id": "29e511e4-7080-4d2c-a6a7-24f3667d8fd7",
+      "name": "Execute a SQL query17",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const title = $('Execute a SQL query21').first().json.content;\nconst word_count = 800;\nreturn{\n  \"title\":title,\n  \"word_count\":word_count\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        -5104
+      ],
+      "id": "d609c35b-7964-4a51-97ee-5e3e8691ae9a",
+      "name": "title , word_count , chapters1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update {{ $('Select rows from a table1').item.json.db_name }}.ads_title\nset is_generate = 1\nwhere id = {{ $('Execute a SQL query21').item.json.id }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        160,
+        -5104
+      ],
+      "id": "acc55b30-05c1-4a0b-8c69-f5c8841ed904",
+      "name": "Execute a SQL query18",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "\nSET SQL_SAFE_UPDATES = 0;\ndelete from {{ $('Select rows from a table1').item.json.db_name }}.contents\nwhere chapter1_title = 'undefined';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        384,
+        -5104
+      ],
+      "id": "7d6c6ae8-2fb0-455b-8a92-dd0f49a4d783",
+      "name": "Execute a SQL query10",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:6000/gemini",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "=You are a **senior advertising copywriter** and **sales psychologist** specializing in **digital marketing content for classifieds and listing websites** (such as Divar, Sheypoor, Istgah, etc.).  \nYour goal is to **generate a persuasive, SEO-optimized article** following the **Yoast SEO standards**, suitable for online publication.\n\n\n---\nThe Title is {{ $('Execute a SQL query21').item.json.content }}\nThe Keyword is {{ $('Execute a SQL query21').item.json.sarshakhe }}\n\n### 🎯 CONTEXT VARIABLES:\n- Company name: {{ $('Select rows from a table1').item.json.company_name }}\n- Business field: {{ $('Select rows from a table1').item.json.business_field }}\n- Services/Products: {{ $('Select rows from a table1').item.json.services_products }}\n- About company (brief intro or tagline): {{ $('Select rows from a table1').item.json.about_company }}\n- Language: {{ $('Select rows from a table1').item.json.lang }}\n\n---\n\n### 📘 OBJECTIVE:\nWrite a fully promotional and persuasive **SEO article (2000 charachters)** that:\n1. Is optimized for **listing platforms** (e.g., Divar, Sheypoor, Istgah).\n2. Uses **sales psychology** techniques to:\n   - Build trust and credibility.\n   - Address customer concerns.\n   - Emphasize value and benefits.\n   - Create natural **urgency** for immediate action.\n3. Encourages the reader to contact **{{ $('Select rows from a table1').item.json.company_name }}**.\n\n---\n\n### 📑 ARTICLE STRUCTURE:\n1. **Hook (1–2 sentences):**\n   Capture attention with an emotional or curiosity-based opener related to {{ $('Select rows from a table1').item.json.business_field }}.\n\n2. **Introduction (80–100 words):**\n   - Clearly state what {{ $('Select rows from a table1').item.json.company_name }} offers.\n   - Mention a key problem or need in the market.\n   - End with a transition toward the solution.\n\n3. **Problem Section (H2):**\n   - Describe pain points or challenges faced by the target audience.\n   - Connect these problems emotionally and logically to the reader.\n\n4. **Solution Section (H2):**\n   - Present {{ $('Select rows from a table1').item.json.services_products }} as the ideal solution.\n   - Highlight main benefits (e.g., time-saving, reliability, affordability).\n   - Use **strong, direct sentences** in the middle and end of this section.\n\n5. **Call to Action (H2):**\n   - Write a persuasive CTA with **urgency** (“Call today,” “Book now,” etc.).\n   - Direct users to contact **{{ $('Select rows from a table1').item.json.company_name }}** immediately.\n{{ $('Select rows from a table1').item.json.address }}\n{{ $('Select rows from a table1').item.json.mobile_phone }}\n\n6. **Why {{ $('Select rows from a table1').item.json.about_company }}? (H2):**\n   - Explain why the reader should trust this company.\n   - Mention experience, credibility, portfolio, and **free consultation** offer.\n\n\nthe text must be 2000 charachter at maximum\ndont use the word price\n---\n\n### 🧠 WRITING STYLE:\n- Tone: **Professional, trustworthy, friendly, and sales-driven.**\n- Voice: **Active voice** only.\n- Transition words: Use frequently for smooth flow.\n- SEO: Naturally include keywords related to {{ $('Select rows from a table1').item.json.business_field }} and {{ $('Select rows from a table1').item.json.services_products }}.\n- Avoid any meta-description, title tags, or HTML — write in plain text only.\n\n---\n\n### ⚠️ IMPORTANT RULES:\n- Output must be in {{ $('Select rows from a table1').item.json.lang }}.\n- Do not include instructions, explanations, or markdown — just the article text.\n- Avoid fake testimonials or unrealistic claims.\n- Maintain a logical and emotional progression from problem → solution → CTA.\n\n---\n\nNow, **generate the article text only**, following all the above rules.\n \n\nuse this word in the content: \"اسکالپ\""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -304,
+        -5104
+      ],
+      "id": "1a87b467-67f0-489c-83e4-616bce4fa252",
+      "name": "HTTP Request9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_article_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -5104
+      ],
+      "id": "83c183fe-19b6-4d22-9fb1-128c669b6c82",
+      "name": "تبلیغاتی"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input string from the previous node\nconst inputText = $('Select rows from a table1').first().json.keyword; // \"yourInputField\" را با نام فیلد ورودی خود جایگزین کنید\n\n// Split the string by the hyphen \"-\" character\nconst items = inputText.split('-');\n\n// Return each item as a new n8n item\nreturn items.map(item => {\n  return {\n    json: {\n      result: item.trim() // .trim() removes any extra spaces\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        -6448
+      ],
+      "id": "350f0604-4e04-40d5-bd49-4e6475d3b0d2",
+      "name": "bullet"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.keyword(text, is_generate) values\n('{{ $json.result }}',0);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -304,
+        -6448
+      ],
+      "id": "dcfa9fde-7340-4fb6-ad46-579baf8e77ca",
+      "name": "Execute a SQL query24",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "60641167-e7a3-4fe4-8c50-00022a1022e6",
+              "leftValue": "={{ $('Select rows from a table1').item.json.keyword }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -944,
+        -6624
+      ],
+      "id": "64af002f-40f0-498e-bad8-51cbe30fc019",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "keyword"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        -6448
+      ],
+      "id": "73296eb3-e72e-43fd-be1f-fd216d598dc7",
+      "name": "HTTP Request10"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH RankedRows AS (\n    SELECT\n        id,\n        ROW_NUMBER() OVER(PARTITION BY text ORDER BY id) as rn\n    FROM\n        {{ $('Select rows from a table1').item.json.db_name }}.keyword\n)\nDELETE FROM {{ $('Select rows from a table1').item.json.db_name }}.keyword\nWHERE id IN (SELECT id FROM RankedRows WHERE rn > 1);",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        -80,
+        -6448
+      ],
+      "id": "9b7d2078-5559-43db-afcd-8ecd9be56cc9",
+      "name": "Execute a SQL query2",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/start-scraping",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "keyword",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -304,
+        -5696
+      ],
+      "id": "02ad93b5-5e10-4691-b4b6-6fb8cfa20bf5",
+      "name": "HTTP Request12"
+    },
+    {
+      "parameters": {
+        "jsCode": "// دریافت آرایه لینک‌ها از ورودی\nconst urls = $input.first().json.message;\n\n// تعریف اندازه هر دسته\nconst batchSize = 1;\n\n// ایجاد یک آرایه خالی برای نگهداری دسته‌های جدید\nconst batches = [];\n\n// حلقه برای پیمایش در آرایه لینک‌ها با گام‌های ۵تایی\nfor (let i = 0; i < urls.length; i += batchSize) {\n  // جدا کردن یک دسته ۵تایی از لینک‌ها با استفاده از slice\n  const batch = urls.slice(i, i + batchSize);\n  \n  // اضافه کردن دسته جدید به آرایه batches به عنوان یک آیتم n8n\n  batches.push({\n    json: {\n      // فیلد جدیدی به نام urls (جمع) که حاوی آرایه ۵تایی است\n      urls: batch\n    }\n  });\n}\n\n// بازگرداندن آرایه دسته‌بندی شده\nreturn batches;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -5536
+      ],
+      "id": "903a897a-2a76-475a-be21-1c1b1e6225dd",
+      "name": "Code in JavaScript",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        384,
+        -5728
+      ],
+      "id": "cccc03a2-38b0-4781-b46b-83d4f89747ad",
+      "name": "Wait",
+      "webhookId": "c0ab6003-47a2-4a58-b702-78a1e33b6562"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "00064d9f-57c0-4ccd-8443-e1082ec9d9d4",
+              "leftValue": "={{ $('HTTP Request13').item.json.message }}",
+              "rightValue": "done",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        -5728
+      ],
+      "id": "8764ae51-f97c-45b6-b98a-6b187c9b01bb",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/get-links",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "keyword",
+              "value": "={{ $('HTTP Request15').item.json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        384,
+        -5536
+      ],
+      "id": "d2e7b096-bb46-425e-8eb7-aaae43768548",
+      "name": "HTTP Request14"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/check-progress",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "keyword",
+              "value": "={{ $('HTTP Request15').item.json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        -5696
+      ],
+      "id": "12e60d2b-7f87-43fa-9211-916a89111094",
+      "name": "HTTP Request13"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9df094ea-56d6-4be0-b757-cdc569fc5bf1",
+              "leftValue": "={{ $json.run_image_now }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1232,
+        -5696
+      ],
+      "id": "9b655c32-1320-4b4a-92ef-cca685d83168",
+      "name": "عکس"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM {{ $('Select rows from a table1').item.json.db_name }}.keyword\nwhere image_generate = 0 \nLIMIT 1;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        -944,
+        -5696
+      ],
+      "id": "73d722ce-309b-4840-93c7-c7dd979adfbb",
+      "name": "Execute a SQL query4",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update {{ $('Select rows from a table1').item.json.db_name }}.keyword\nset is_generate = 1\nwhere id = {{ $('Execute a SQL query').item.json.id }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        384,
+        -6128
+      ],
+      "id": "841b8928-3313-4de9-aecb-0b4eb19adb58",
+      "name": "Execute a SQL query13",
+      "executeOnce": true,
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert into {{ $('Select rows from a table1').item.json.db_name }}.link_image(link, name, tag) VALUES\n('{{ $json.urls[0][0] }}','{{ $json.urls[0][1] }}','{{ $('Execute a SQL query4').item.json.text }}');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        832,
+        -5536
+      ],
+      "id": "0945e7ea-d929-4796-afbf-284275081905",
+      "name": "Execute a SQL query5",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:12000/report_completion",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "project_key",
+              "value": "={{ $('Edit Fields').item.json.project_key }}"
+            },
+            {
+              "name": "content_type",
+              "value": "image"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1616,
+        -5536
+      ],
+      "id": "5a9d5cd7-64c6-4e97-b093-1379b0bfab32",
+      "name": "HTTP Request16"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update {{ $('Select rows from a table1').item.json.db_name }}.keyword\nset image_generate = 1\nwhere id = {{ $('Execute a SQL query4').item.json.id }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1040,
+        -5536
+      ],
+      "id": "02e4fbc5-a91d-4b68-90ec-47083b53cc92",
+      "name": "Execute a SQL query46",
+      "credentials": {
+        "mySql": {
+          "id": "SS1NI8KHdvEqm4NW",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://82.115.21.42:6000/gemini",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "=You are a keyword optimizer for image search.\n\nYou are a keyword optimizer for image search.\nYour task is to rewrite the given Persian keyword into English so that it matches the visual search standards of image libraries like Unsplash, Pexels, and Shutterstock.\nDon't go into too much information. Give a short, general word based on the keyword and field of work.\nInstructions:\n1. Identify the correct meaning of the keyword in the context of content creation.\n2. If the keyword is too specific or has multiple meanings, clarify it by adding 1-2 descriptive words related to photography.\n3. Avoid abstract words. Always prefer visual and tangible concepts.\n4. Return only the optimized English keyword, nothing else.\n5. Write according to the company's field of work.\n6. **If the keyword refers to a service (not a product), return a broad, general keyword representing that service domain, not a specific or local name.**\nDon't use city, country, or any locations in output.\nExample:\nInput: Wounded Lion's Foot  \nOutput: lion's paw  \n------------------\nInput: Buy Samsung mobile phones  \nOutput: mobile phone  \n----------------------------\nInput: بهترین مجتمع فنی مهارتی  \nOutput: Technical services\n----------------------------\nInput: خرید موبایل سامسونگ\nOutput: Mobile phone\n----------------------------\nInput: عکس افراد در حال کار\nOutput: People working\n----------------------------\nInput: تکنولوژی روز\nOutput: Technology\n----------------------------\nInput: کسب و کار موفق\nOutput: Business services\n----------------------------\nInput: آموزش حرفه‌ای\nOutput: Education\n----------------------------\nInput: تور گردشگری\nOutput: Travel\n----------------------------\nInput: غذای سنتی\nOutput: Food\n----------------------------\nInput: خدمات درمانی\nOutput: Healthcare services\n----------------------------\nInput: پروژه ساختمانی\nOutput: Construction\n----------------------------\nInput: طبیعت زیبا\nOutput: Nature\n----------------------------\nInput: حیوانات وحشی\nOutput: Wildlife\n----------------------------\nInput: خودرو لوکس\nOutput: Car\n----------------------------\nInput: طراحی داخلی\nOutput: Interior design\n----------------------------\nInput: مد و فشن\nOutput: Fashion\n----------------------------\nInput: ورزشکار در حال تمرین\nOutput: Sports\n----------------------------\nInput: هنر نقاشی\nOutput: Art\n----------------------------\nInput: موسیقی و کنسرت\nOutput: Music\n----------------------------\nInput: تکنولوژی موبایل\nOutput: Mobile technology\n----------------------------\nInput: خوراکی سالم\nOutput: Healthy food\n----------------------------\nInput: کافه و نوشیدنی\nOutput: Cafe\n----------------------------\nInput: کتاب و مطالعه\nOutput: Books\n----------------------------\nInput: عکاسی منظره\nOutput: Landscape photography\n----------------------------\nInput: ساخت و ساز مدرن\nOutput: Architecture\n----------------------------\nInput: لپ‌تاپ و کامپیوتر\nOutput: Computer\n----------------------------\nInput: ساعت و اکسسوری\nOutput: Accessories\n----------------------------\nInput: ورزش گروهی\nOutput: Team sports\n----------------------------\nInput: گل و باغچه\nOutput: Flowers\n----------------------------\nInput: حیوانات خانگی\nOutput: Pets\n----------------------------\nInput: سفر ماجراجویی\nOutput: Adventure travel\n----------------------------\nInput: خورشید و آسمان\nOutput: Sky\n----------------------------\nInput: دریای آرام\nOutput: Sea\n----------------------------\nInput: غذاهای دریایی\nOutput: Seafood\n----------------------------\nInput: نوشیدنی خنک\nOutput: Drinks\n----------------------------\nInput: ورزشهای زمستانی\nOutput: Winter sports\n----------------------------\nInput: خودروهای اسپرت\nOutput: Sports car\n----------------------------\nInput: فضای شهری\nOutput: Cityscape\n----------------------------\nInput: زندگی شبانه\nOutput: Nightlife\n----------------------------\nInput: تکنولوژی هوشمند\nOutput: technology\n----------------------------\nInput: آشپزی حرفه‌ای\nOutput: Cooking\n----------------------------\nInput: طبیعت جنگلی\nOutput: Forest\n----------------------------\nInput: حیوانات مزرعه\nOutput: Farm animals\n----------------------------\nInput: تجهیزات ورزشی\nOutput: Sports equipment\n----------------------------\nInput: گردشگری فرهنگی\nOutput: Cultural travel\n----------------------------\nInput: دکوراسیون منزل\nOutput: Home decor\n----------------------------\nInput: صنایع دستی\nOutput: Handicrafts\n----------------------------\nInput: عکس خیابان\nOutput: Street\n----------------------------\nInput keyword: {{ $json.text }}  \nBusiness_field: {{ $('Select rows from a table1').item.json.business_field }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -624,
+        -5680
+      ],
+      "id": "64d5e88f-b307-4f1b-a1a8-45f60b862159",
+      "name": "HTTP Request15"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-thinking-exp-1219",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        -6624
+      ],
+      "id": "bbe03e57-1604-46ee-b6c8-5dd714f79639",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "apvT2swnEVrMVqz1",
+          "name": "number273"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=اطلاعات کسب‌وکار:\nنام برند: {{ $('Select rows from a table1').item.json.company_name }}\nمحصولات یا خدمات اصلی: {{ $('Select rows from a table1').item.json.services_products }}\nحوزه کاری: {{ $('Select rows from a table1').item.json.business_field }}\nبر اساس اطلاعات فوق، لطفاً دقیقاً {{ $('Select rows from a table1').item.json.number_of_keyword / 4}} کلمه کلیدی سئو شده و هدفمند پیشنهاد کن که:\n- ترکیبی از کلمات کوتاه، میان‌رده و بلند باشند.\n- شامل کلمات مرتبط با حوزه کاری و نیاز مشتریان باشند.\n- قابلیت رتبه‌گیری بالا در موتورهای جستجو را داشته باشند.\n- از عبارات جذاب، پرسرچ و با نیت جستجوی مشخص (اطلاعاتی، تراکنشی، ناوبری) استفاده شود.\nهر کلمه را در یک خروجی زیر هم بده\n-به زبان   {{ $('Select rows from a table1').item.json.lang }}   بنویس\n\n\n\nهر آیتم را با ============== جدا کن",
+        "options": {
+          "systemMessage": "=شما یک کارشناس ارشد سئو، تحقیق کلمات کلیدی و بازاریابی محتوایی هستید با بیش از ۱۰ سال تجربه در شناسایی فرصت‌های کلمات کلیدی سودآور و کم‌رقابت.\nهمیشه خروجی شما باید بر اساس داده‌های ورودی، مرتبط، قابل جستجو، دارای پتانسیل جذب ترافیک، و منطبق بر زبان و بازار هدف باشد.\nاز تکرار بیهوده اجتناب کنید و عبارات پیشنهادی باید ترکیبی از کلمات کوتاه، میان‌رده و بلند (Short-tail, Mid-tail, Long-tail) باشند.\n\nهیچ چیز اضافی ننویس فقط کلمه ها رو خروجی بده"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -656,
+        -6848
+      ],
+      "id": "e6556a8a-7780-4ff7-bd2c-f9e412047c2d",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        592,
+        -6128
+      ],
+      "id": "73552205-93dd-49df-a5cf-0bc6e39b2151",
+      "name": "Limit",
+      "executeOnce": true
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "مقاله",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "بین پاراگرافی",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "اینفو",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "بولت",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "عنوان",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "کلمه کلیدی",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "تبلیغاتی",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "عکس",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "کلمه کلیدی": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "عنوان": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "مقاله": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query20",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute a SQL query20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "بین پاراگرافی": {
+      "main": [
+        [
+          {
+            "node": "tolid bein",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "اینفو": {
+      "main": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "بولت": {
+      "main": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bullet1": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query12": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query1": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query3": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query20": {
+      "main": [
+        [
+          {
+            "node": "title , word_count , chapters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query14": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "title , word_count , chapters": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query15": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tolid bein": {
+      "main": [
+        [
+          {
+            "node": "bein",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model11": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "tolid bein",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query16": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bein": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent5": {
+      "main": [
+        [
+          {
+            "node": "info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "info": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query32",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query32": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query7": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bullet2": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent6": {
+      "main": [
+        [
+          {
+            "node": "bullet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query21": {
+      "main": [
+        [
+          {
+            "node": "title , word_count , chapters1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query17": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "title , word_count , chapters1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query18": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query10": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request9": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "تبلیغاتی": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query21",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "bullet": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query24",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query24": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "bullet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request12": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request14",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request14": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request13": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "عکس": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query13": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query5": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query46",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query46": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request15": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "bullet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a6018e680d2676b1dd3e2b0de2b7daf87d5e187918790b5000014a9022d800ac"
+  }
+}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}{{ t('publishing_queue') }}{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ t('publishing_queue') }}</h2>
+
+{% for qd in queue_data %}
+<div class="card mb-4 animate-in animate-in-delay-{{ loop.index0 % 4 + 1 }}">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0" style="font-weight:600;">{{ qd.project.name }}</h5>
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-warning">{{ qd.stats.articles_unpublished }} {{ t('in_queue') }}</span>
+            <span class="badge bg-success">{{ qd.stats.articles_published }} {{ t('published') }}</span>
+            <form method="POST" action="{{ url_for('publishing.publish', project_id=qd.project._id) }}" class="d-inline">
+                <button class="btn btn-sm btn-success" {% if qd.stats.articles_unpublished == 0 %}disabled{% endif %}>
+                    <i class="bi bi-upload"></i> {{ t('publish_next') }}
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+        {% if qd.unpublished %}
+        <h6 class="section-header" style="margin-top:0;font-size:0.9rem;"><i class="bi bi-hourglass-split"></i> {{ t('unpublished_articles') }}</h6>
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead><tr><th>{{ t('title') }}</th><th>{{ t('tag') }}</th><th>{{ t('created_at') }}</th><th>{{ t('actions') }}</th></tr></thead>
+                <tbody>
+                {% for a in qd.unpublished %}
+                <tr>
+                    <td>{{ a.article_title[:60] }}</td>
+                    <td><span class="badge bg-secondary">{{ a.tag }}</span></td>
+                    <td>{{ a.created_at.strftime('%m/%d %H:%M') if a.created_at else '-' }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('publishing.publish', project_id=qd.project._id) }}" class="d-inline">
+                            <input type="hidden" name="article_id" value="{{ a._id }}">
+                            <button class="btn btn-sm btn-outline-success">{{ t('publish') }}</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted" style="font-size:0.9rem;">{{ t('no_unpublished') }}</p>
+        {% endif %}
+
+        {% if qd.published %}
+        <h6 class="section-header" style="font-size:0.9rem;"><i class="bi bi-check2-circle"></i> {{ t('recently_published') }}</h6>
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead><tr><th>{{ t('title') }}</th><th>{{ t('wp_url_col') }}</th><th>{{ t('published_at') }}</th></tr></thead>
+                <tbody>
+                {% for a in qd.published %}
+                <tr>
+                    <td>{{ a.article_title[:50] }}</td>
+                    <td>
+                        {% if a.wp_post_url %}
+                        <a href="{{ a.wp_post_url }}" target="_blank" style="color:var(--accent);">{{ a.wp_post_url[:40] }}...</a>
+                        {% endif %}
+                    </td>
+                    <td>{{ a.published_at.strftime('%Y-%m-%d %H:%M') if a.published_at else '-' }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+{% if not queue_data %}
+<div class="empty-state animate-in">
+    <div class="empty-icon"><i class="bi bi-send"></i></div>
+    <p>{{ t('no_projects_configured') }}</p>
+</div>
+{% endif %}
+
+<!-- Active Jobs -->
+{% if jobs %}
+<div class="animate-in" style="animation-delay: 0.25s;">
+    <h5 class="section-header mt-4"><i class="bi bi-clock-history"></i> {{ t('active_scheduled_jobs') }}</h5>
+    <table class="table table-sm">
+        <thead><tr><th>{{ t('job_id') }}</th><th>{{ t('next_run') }}</th><th>{{ t('trigger') }}</th></tr></thead>
+        <tbody>
+        {% for j in jobs %}
+        <tr>
+            <td><code>{{ j.id }}</code></td>
+            <td>{{ j.next_run }}</td>
+            <td>{{ j.trigger }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}
